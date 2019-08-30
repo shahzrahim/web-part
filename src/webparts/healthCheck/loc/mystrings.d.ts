@@ -9,7 +9,7 @@ declare interface IHealthCheckWebPartStrings {
   PageCustom4FieldLabel:string;
   PageSubmitBtnFieldLabel:string;
   PageCancelBtnFieldLabel:string;
-  resultMessage: string;
+  //DescriptionFieldLabel: string;  
 }
 
 declare module 'HealthCheckWebPartStrings' {

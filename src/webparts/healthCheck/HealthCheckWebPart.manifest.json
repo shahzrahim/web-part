@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "e133734b-ca91-4aa1-99e5-4e784ce3263e",
+  "id": "312c85a3-30d3-4b94-8b30-ba7f4d10f9a7",
   "alias": "HealthCheckWebPart",
   "componentType": "WebPart",
 
@@ -17,18 +17,12 @@
   "preconfiguredEntries": [{
     "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Other
     "group": { "default": "Other" },
-    "title": { "default": "HealthCheckWebpart" },
+    "title": { "default": "HealthCheck" },
     "description": { "default": "HealthCheck description" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "HealthCheckPageTitle": "Health Check",
-      "HealthCheckCustomLabel1" : "Type/Custom Group",
-      "HealthCheckCustomLabel2" : "Enter Server/App/Group (Optional)",
-      "HealthCheckCustomLabel3" : "Environments",
-      "HealthCheckCustomLabel4" : "Verbose Mode",
-      "HealthCheckCustomButton1" : "Cancel",
-      "HealthCheckCustomButton2" : "Health Check"
-
+      "description": "HealthCheck"
+      
     }
   }]
 }

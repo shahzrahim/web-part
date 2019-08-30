@@ -1,55 +1,50 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
+import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import * as microsoftTeams from '@microsoft/teams-js';
+import { SPHttpClient } from '@microsoft/sp-http'; 
 import {
-  BaseClientSideWebPart,
   IPropertyPaneConfiguration,
-  PropertyPaneTextField,
-  IWebPartContext
-} from '@microsoft/sp-webpart-base';
-//import { PropertyFieldColorPicker, PropertyFieldColorPickerStyle } from '@pnp/spfx-property-controls/lib/PropertyFieldColorPicker';
+  PropertyPaneTextField
+} from '@microsoft/sp-property-pane';
+
 import * as strings from 'HealthCheckWebPartStrings';
-import HealthCheck from './components/Container/HealthCheckContainer';
-import { IHealthCheckWebProps } from './IHealthCheckWebPartProps';
+import HealthCheck from './components/HealthCheck';
+import { IHealthCheckProps } from './components/IHealthCheckProps';
 
-
-
+//export interface IHealthCheckWebPartProps {
+//  description: string;
+//}
 export interface IHealthCheckWebPartProps {
-  listName: string;
-  HealthCheckPageTitle: string;
-   HealthCheckCustomLabel1: string;
-   HealthCheckCustomLabel2: string;
-   HealthCheckCustomLabel3: string;
-   HealthCheckCustomLabel4: string;
-   HealthCheckCustomButton1: string;
-   HealthCheckCustomButton2: string;
-   //add color picker
+listName: string;
+HealthCheckPageTitle: string;
+ HealthCheckCustomLabel1: string;
+ HealthCheckCustomLabel2: string;
+ HealthCheckCustomLabel3: string;
+ HealthCheckCustomLabel4: string;
+ HealthCheckCustomButton1: string;
+ HealthCheckCustomButton2: string;
 }
-
 export default class HealthCheckWebPart extends BaseClientSideWebPart<IHealthCheckWebPartProps> {
-
-
-  public constructor(context?: IWebPartContext) {
-    super();
-
-    this.onPropertyPaneFieldChanged = this.onPropertyPaneFieldChanged.bind(this);
-  }
+// This variable has been added
+private _teamsContext: microsoftTeams.Context;
   public render(): void {
-    const element: React.ReactElement<IHealthCheckWebPartProps > = React.createElement(
+    
+    const element: React.ReactElement<IHealthCheckProps > = React.createElement(
       HealthCheck,
       {
-          //description: this.properties.description
-          listName: this.properties.listName,
-          HealthCheckPageTitle : this.properties.HealthCheckPageTitle,
-          HealthCheckCustomLabel1:this.properties.HealthCheckCustomLabel1,
-          HealthCheckCustomLabel2:this.properties.HealthCheckCustomLabel2,
-          HealthCheckCustomLabel3:this.properties.HealthCheckCustomLabel3,
-          HealthCheckCustomLabel4:this.properties.HealthCheckCustomLabel4,
-          HealthCheckCustomButton1:this.properties.HealthCheckCustomButton1,
-          HealthCheckCustomButton2:this.properties.HealthCheckCustomButton2,
-//        HealthCheckCustomColor: this
-          context: this.context   
-
+        //description: this.properties.description
+        listName: this.properties.listName,
+        HealthCheckPageTitle:this.properties.HealthCheckPageTitle,
+        HealthCheckCustomLabel1:this.properties.HealthCheckCustomLabel1,
+        HealthCheckCustomLabel2:this.properties.HealthCheckCustomLabel2,
+        HealthCheckCustomLabel3:this.properties.HealthCheckCustomLabel3,
+        HealthCheckCustomLabel4:this.properties.HealthCheckCustomLabel4,
+        HealthCheckCustomButton1:this.properties.HealthCheckCustomButton1,
+        HealthCheckCustomButton2:this.properties.HealthCheckCustomButton2
+        //spHttpClient: this.context.spHttpClient,  
+        //siteUrl: this.context.pageContext.web.absoluteUrl
       }
     );
 
@@ -60,20 +55,20 @@ export default class HealthCheckWebPart extends BaseClientSideWebPart<IHealthChe
     ReactDom.unmountComponentAtNode(this.domElement);
   }
 
-  protected get dataVersion(): Version {
-    return Version.parse('1.0');
-  }
-
-  
-       /**
+        /**
    * We're disabling reactive property panes here because we don't want the web part to try to update events as
-   * people are typing in the feed URL.
+   * people are typing in the properties.
    */
   protected get disableReactivePropertyChanges(): boolean {
     // require an apply button on the property pane
+    
     return true;
   }
 
+
+  protected get dataVersion(): Version {
+    return Version.parse('1.0');
+  }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
@@ -112,18 +107,6 @@ export default class HealthCheckWebPart extends BaseClientSideWebPart<IHealthChe
                   label: strings.PageCancelBtnFieldLabel  
                 }) 
 
-                // PropertyFieldColorPicker('color', {
-                //   label: 'Color',
-                //   selectedColor: this.properties.color,
-                //   onPropertyChange: this.onPropertyPaneFieldChanged,
-                //   properties: this.properties,
-                //   disabled: false,
-                //   isHidden: false,
-                //   alphaSliderHidden: false,
-                //   style: PropertyFieldColorPickerStyle.Full,
-                //   iconName: 'Precipitation',
-                //   key: 'colorFieldId'
-                // })
                // PropertyPaneTextField('description', {
                //   label: strings.DescriptionFieldLabel
                // })

@@ -10,8 +10,7 @@ define([], function() {
     "PageCustom3FieldLabel":"Health Check Custom Label3",
     "PageCustom4FieldLabel":"Health Check Custom Label4",
     "PageSubmitBtnFieldLabel":"Health Check Custom Button1",
-    "PageCancelBtnFieldLabel":"Health Check Custom Button2",
-    "resultMessage" : "08-21-19 20:20:10: pr1focap002.us.grainger.com: (App:Focus): (Chks: P:14 F:0 E:9): GREEN"
+    "PageCancelBtnFieldLabel":"Health Check Custom Button2"
     
   }
 });
