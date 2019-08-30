@@ -124,6 +124,8 @@ export default class HealthCheckWebPart extends BaseClientSideWebPart<IHealthChe
                 //   iconName: 'Precipitation',
                 //   key: 'colorFieldId'
                 // })
+
+              
                // PropertyPaneTextField('description', {
                //   label: strings.DescriptionFieldLabel
                // })
