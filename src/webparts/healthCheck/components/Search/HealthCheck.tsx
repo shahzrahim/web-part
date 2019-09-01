@@ -78,7 +78,6 @@ export default class HealthCheck extends React.Component<IHealthCheckProps>
     this.currContext = props.context;
     this.state = {
       results: []  
-    
     }
   };
 
@@ -114,10 +113,13 @@ export default class HealthCheck extends React.Component<IHealthCheckProps>
          
             <Label className={styles.custLabel}>{escape(this.props.HealthCheckCustomLabel1)}</Label>           
             <Dropdown placeholder="Select an option"  
-            options={options} defaultSelectedKey="Designers" styles={dropdownStyles} onChange={this.onChangeFunc} />
+                      options={options} 
+                      defaultSelectedKey="Designers" 
+                      styles={dropdownStyles} 
+                      onChange={this.onChangeFunc} />
            
             <Label className={styles.custLabel}>{escape(this.props.HealthCheckCustomLabel2)}</Label>
-            <TextField //label="Enter Server/App/Group (Optional)" 
+            <TextField label="Enter Server/App/Group (Optional)" 
             />
            
             <Label className={styles.custLabel}>{escape(this.props.HealthCheckCustomLabel3)}</Label>
@@ -125,17 +127,28 @@ export default class HealthCheck extends React.Component<IHealthCheckProps>
             options={[ { key: 'prd', text: 'PRD' },
                        { key: 'qa', text: 'QA' },
                        { key: 'dev', text: 'DEV' },
-                       { key: 'all', text: 'ALL' }]} defaultSelectedKey="dev" styles={dropdownStyles} />
+                       { key: 'all', text: 'ALL' }]} 
+                      //  defaultSelectedKey="dev" 
+                       styles={dropdownStyles} />
             <Label className={styles.custLabel}>{escape(this.props.HealthCheckCustomLabel4)}</Label>           
-            <Dropdown placeholder="Select an option"  
-               options={[ { key: 'on', text: 'ON' },{ key: 'off', text: 'OFF' }]} defaultSelectedKey="off" styles={dropdownStyles} />
+            <Dropdown 
+                      placeholder="Select an option"  
+                      options={[ 
+                        { key: 'on', text: 'ON' },
+                        { key: 'off', text: 'OFF' }]} 
+                        // defaultSelectedKey="off" 
+                        styles={dropdownStyles} />
           <div className={styles.custButton}>
           <table>
             
             <tr><td><b><Checkbox label="Check validity"  onChange={this._onCheckboxChange} /></b></td>
             <td>     
                       
-              <DefaultButton className={styles["addButton"]} data-automation-id="btnCancel" target="_blank" title="Cancel" onClick={this._btnCancelClicked}>  
+              <DefaultButton 
+                        className={styles["addButton"]} 
+                        data-automation-id="btnCancel" 
+                        target="_blank" title="Cancel" 
+                        onClick={this._btnCancelClicked}>  
               <b>{escape(this.props.HealthCheckCustomButton1)} </b>  
               </DefaultButton> </td>
             <td>
@@ -159,14 +172,14 @@ export default class HealthCheck extends React.Component<IHealthCheckProps>
     console.log('The option has been changed to ${isChecked}.');
   }
 //
-onChangeFunc(optionSelected) {
+  private onChangeFunc(optionSelected: any) {
   //const name = this
-  const value = optionSelected.value;
+  const value = optionSelected.values;
   const label = optionSelected.label;
 }
 
 private _btnCancelClicked(): void {  
-  alert('Cancel Button is Clicked');  
+  // alert('Cancel Button is Clicked');  
 } 
 private _btnHealthChkClicked():void{
   var selectedData = [];

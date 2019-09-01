@@ -13,6 +13,7 @@
   },
   "externals": {},
   "localizedResources": {
-    "HealthCheckWebPartStrings": "lib/webparts/healthCheck/loc/{locale}.js"
+    "HealthCheckWebPartStrings": "lib/webparts/healthCheck/loc/{locale}.js",
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
   }
 }
