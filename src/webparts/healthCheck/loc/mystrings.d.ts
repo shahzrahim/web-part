@@ -10,6 +10,7 @@ declare interface IHealthCheckWebPartStrings {
   PageSubmitBtnFieldLabel:string;
   PageCancelBtnFieldLabel:string;
   resultMessage: string;
+  loadingFeed: string;
 }
 
 declare module 'HealthCheckWebPartStrings' {
