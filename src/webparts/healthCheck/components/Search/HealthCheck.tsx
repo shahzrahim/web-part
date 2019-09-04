@@ -79,8 +79,9 @@ export default class HealthCheck extends React.Component<IHealthCheckProps>
     this.state = {
       results: []  
     
-    }
-  };
+    };
+    this._btnHealthChkClicked = this._btnHealthChkClicked.bind(this);
+  }
 
   /**
    * @function
@@ -155,27 +156,38 @@ export default class HealthCheck extends React.Component<IHealthCheckProps>
     );
   }
 //ValidlityCheck 
-  private _onCheckboxChange(ev: React.FormEvent<HTMLElement>, isChecked: boolean): void {
-    console.log('The option has been changed to ${isChecked}.');
-  }
+private _onCheckboxChange(ev: React.FormEvent<HTMLElement>, isChecked: boolean): void {
+  console.log('The option has been changed to ${isChecked}.');
+}
 //
-onChangeFunc(optionSelected) {
-  //const name = this
-  const value = optionSelected.value;
-  const label = optionSelected.label;
+private onChangeFunc(optionSelected) {
+//const name = this
+const value = optionSelected.value;
+const label = optionSelected.label;
 }
 
 private _btnCancelClicked(): void {  
-  alert('Cancel Button is Clicked');  
+alert('Cancel Button is Clicked'); 
+this._clearForm();
 } 
 private _btnHealthChkClicked():void{
-  var selectedData = [];
-  selectedData.push("button clicked");
-  this.props.onSaveClick(selectedData);  
+var selectedData = [];
+selectedData.push("button clicked");
+this.props.onClick(selectedData);  
+this._clearForm();
 }
-//  
-  private _onChange = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => 
-  {
+
+private _clearForm(): void{
+console.log('should clear Form!');
+this.setState( {
+  HealthCheckCustomLabel1: "",
+  HealthCheckCustomLabel2: "",
+  HealthCheckCustomLabel3: "",
+  HealthCheckCustomLabel4: ""
+  });
+  }
+  // private _onChange = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => 
+  // {
     //const newSelectedItems = [this.state.selectedItems];
    // if (item.selected) {
       // add the option if it's checked
@@ -190,5 +202,5 @@ private _btnHealthChkClicked():void{
   //  this.setState({
   //    selectedItems: newSelectedItems
    // });
-  }
 }
+

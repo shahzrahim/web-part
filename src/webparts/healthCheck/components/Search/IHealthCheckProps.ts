@@ -8,7 +8,7 @@ export interface IHealthCheckProps {  // description: string;
   HealthCheckCustomLabel4: string;
   HealthCheckCustomButton1: string;
   HealthCheckCustomButton2: string;
-  onSaveClick: ((term?: any) => void);   
+  onClick: (term?: any) => void;   
   context: IWebPartContext;
  }
  
