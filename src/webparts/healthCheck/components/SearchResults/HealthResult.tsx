@@ -18,8 +18,8 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
       };
   }
 
-//   componentWillReceiveProps
-// public componentWillReceiveProps(nextProps: IHealthResultProps): void {   
+//   componentWillReceiveProps 
+public componentWillReceiveProps(nextProps: IHealthResultProps): void {   
 //     if (this.props.groupselectedValues !== nextProps.groupselectedValues && nextProps.groupselectedValues.length > 0) {   
 //     if (this.CheckGroupValueExists(nextProps.groupselectedValues)) {
 //       this.setState({ groupresults: [], myresults: [], isLoading: true });
@@ -38,7 +38,7 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
 //     }
 //   }
 // } 
-// }
+}
   public render(): React.ReactElement<IHealthResultProps> {
     //const resultStyle = this.props.HealthResult ? { display: 'block' } : { display: 'none' };
     if (this.state.isLoading) {
