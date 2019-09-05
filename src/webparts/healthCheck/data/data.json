@@ -1,0 +1,16 @@
+{
+    "data": {
+        "AppName": "appname",
+        "Env": "PRD",
+        "Servers": {
+            "Server1": "prlfocusapp.grainger.com",
+            "Chk1": {"P": "14", "F": "0", "E": "15"},
+            "Status1": "Green",
+            "Color1": "#005566", 
+            "Server2" : "prlfocusapp2.grainger.com", 
+            "Chk2" : {"P" : "14", "F" : "0", "E" : "15"}, 
+            "Status2": "Red", 
+            "Color2" : "#009988"
+            }
+    }
+}

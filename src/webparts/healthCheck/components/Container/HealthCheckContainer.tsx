@@ -8,6 +8,7 @@ import {
   IWebPartContext
 } from '@microsoft/sp-webpart-base';
 import * as strings from 'HealthCheckWebPartStrings';
+import MockHttpClient from '../Search/MockHttpClient';
 
 
 
@@ -32,16 +33,13 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
     //   userExists: true
     // };
     this._createTodoItem = this._createTodoItem.bind(this);
-    this.sample = this.sample.bind(this);
+
   }
 
 
   public render(): React.ReactElement<IHealthCheckContainerProps> {  
-        console.log("this is working", 1);
-        
         return (
         <div className={styles.healthCheckContainer} >
-}
           <div className='panel' id='SearchResults'>
             <div className='panel panel-default clearfix' id='PersonalFeed'>
 
@@ -53,7 +51,7 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
               <div className='panel-body'>
                 <div className='panel-container'>
                   <div className='panel-search'>
-                    <Healthsearch onClick={this.sample}  listName={this.props.listName} HealthCheckPageTitle={this.props.HealthCheckPageTitle} HealthCheckCustomLabel1={this.props.HealthCheckCustomLabel1}
+                    <Healthsearch onSaveClick={this._createTodoItem}  listName={this.props.listName} HealthCheckPageTitle={this.props.HealthCheckPageTitle} HealthCheckCustomLabel1={this.props.HealthCheckCustomLabel1}
                      HealthCheckCustomLabel2={this.props.HealthCheckCustomLabel2}  HealthCheckCustomLabel3={this.props.HealthCheckCustomLabel3}  HealthCheckCustomLabel4={this.props.HealthCheckCustomLabel4}  HealthCheckCustomButton1={this.props.HealthCheckCustomButton1}
                      HealthCheckCustomButton2={this.props.HealthCheckCustomButton2}  context={this.props.context}  />
                   </div>
@@ -80,18 +78,14 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
     }
   }
 
-  public _createTodoItem(userSelectedData?: any) {
-    console.log('_click function is working');
-    
-    this.setState({ searchValue: userSelectedData, checkResult : true});
+  private _createTodoItem(userSelectedData?: any) {
+    var appValue = MockHttpClient.getApp; 
+    var serversValue = MockHttpClient.getAppServers;
+    this.setState({ searchValue: {appValue, serversValue}, checkResult : true});
+
+
   }
 
 
-  public sample (userSelectedData?: any) {
-    console.log('sample function is working');
-    console.log('Use real code.');
-    
-    // this.setState({ searchValue: userSelectedData, checkResult : true});
-  }
    
 }

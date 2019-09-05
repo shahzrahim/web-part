@@ -18,8 +18,8 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
       };
   }
 
-//   componentWillReceiveProps 
-public componentWillReceiveProps(nextProps: IHealthResultProps): void {   
+//   componentWillReceiveProps is 
+public componentDidMount(): void {   
 //     if (this.props.groupselectedValues !== nextProps.groupselectedValues && nextProps.groupselectedValues.length > 0) {   
 //     if (this.CheckGroupValueExists(nextProps.groupselectedValues)) {
 //       this.setState({ groupresults: [], myresults: [], isLoading: true });
@@ -38,25 +38,40 @@ public componentWillReceiveProps(nextProps: IHealthResultProps): void {
 //     }
 //   }
 // } 
+    this.setState({isLoading:false});
+    if(this.props.HealthResult === true) {return this.setState({isLoading : true});}
+    
+    // console.log('inside the will Receive Props');
+
 }
   public render(): React.ReactElement<IHealthResultProps> {
     //const resultStyle = this.props.HealthResult ? { display: 'block' } : { display: 'none' };
     if (this.state.isLoading) {
         // we're currently loading
-        return (<div className={styles["spinner"]}><Spinner label={strings.loadingFeed} /></div>);
+        return (<div className={styles["spinner.large"]}><Spinner label={strings.loadingFeed} />{strings.loadingFeed}</div>);
       }
+    if (this.props.HealthResult === true){ 
+      {this.setState({isLoading:true});}
+    }
+      
   
     const resultStyle =  { display: 'block' };
       return (
-       
-        
+      <div className="results-contain">
+        <div className={styles["results-contain"]}>
           <div className={styles["accountstatus"]}>
               <div className={styles["claim-account"]} style={resultStyle}>
                   <div>
                       <div className={styles["result-message"]}>{strings.resultMessage}</div>
+                      <div className={styles["result-message"]}>{strings.resultMessage}</div>
+                      <div className={styles["result-message"]}>{strings.resultMessage}</div>
+
+                      <div className="message">{this.props.HealthResult}</div>
                   </div>
               </div>
           </div>
+        </div> 
+      </div>
         
       );
   }
