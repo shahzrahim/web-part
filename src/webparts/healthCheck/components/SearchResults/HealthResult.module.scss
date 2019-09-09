@@ -3,7 +3,12 @@
 {
   .result-message
   {
-    padding-top : 20px;
+    padding-top : 50px;
+  }
+
+  .results-contain {
+    width : 385;
+    padding-top : 50px;
   }
 
   .row {
@@ -33,6 +38,16 @@
   .description {
     @include ms-font-l;
     @include ms-fontColor-white;
+  }
+
+  .claim-account {
+    display: flex;
+    flex-direction: row
+  }
+
+  .result-message {
+    display: flex;
+    padding: 20px
   }
 
  

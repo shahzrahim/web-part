@@ -11,6 +11,7 @@ declare interface IHealthCheckWebPartStrings {
   PageCancelBtnFieldLabel:string;
   resultMessage: string;
   loadingFeed: string;
+  initalFeed: string;
 }
 
 declare module 'HealthCheckWebPartStrings' {

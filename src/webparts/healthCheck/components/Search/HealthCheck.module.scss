@@ -6,22 +6,29 @@
      margin: 0px auto;
     // box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
     // padding-right :45pc;
+    text-align: center;
+
   }
 
   .row {
     @include ms-Grid-row;
     @include ms-fontColor-white;
     /*background-color: $ms-color-themeDark;*/// default theme color
-    background-color: white;
-    padding: 20px;
+    background-color: rgb(245, 245, 245);
+    padding: -10px;
+    margin: 0px;
+    text-align: left;
+
   }
 
   .column {
     @include ms-Grid-col;
-    @include ms-lg10;
+    @include ms-lg12;
     @include ms-xl8;
     @include ms-xlPush2;
     @include ms-lgPush1;
+    max-width: 400px;
+    contain: layout;
   }
 
   .title {
@@ -45,9 +52,17 @@
     border-radius: 0;
     color: #fff !important;
     font-weight: 700;
+    margin-top: 10px;
     margin-bottom: 20px;
     text-transform: uppercase;
+    display: flex;
+    flex: 2;
+    justify-content: space-evenly;
   }
+
+
+
+
 
   // .button 
   // {
@@ -106,10 +121,16 @@
       font-size: 14px;      
       padding-bottom: 5px;
       padding-top: 5px;
+      align-items: left;
     }
     .custButton
     {
-      padding-top: 30px;
+      padding-top: 20px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
     
 }

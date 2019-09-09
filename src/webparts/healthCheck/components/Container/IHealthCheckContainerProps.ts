@@ -17,6 +17,6 @@ export interface IHealthCheckContainerProps {  // description: string;
  {
   checkResult : boolean;
    searchValue : any;
-   isSpinnerHidden: boolean;
+  //  isSpinnerHidden: boolean;
  }
  
