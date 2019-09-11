@@ -1,3 +1,24 @@
+import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { IHealthCheckProps } from "./IHealthCheckProps";
+// import data from '../../data/data';
+var data: any = require('../../data/data.json');
+import { SPHttpClient, SPHttpClientResponse, SPHttpClientConfiguration, HttpClientResponse, HttpClient, IHttpClientOptions } from '@microsoft/sp-http'; 
+import { IHealthCheckContainerProps } from "../Container/IHealthCheckContainerProps";
+
+/**
+ * @interface
+ * Service interface definition
+ */
+export interface IMockService {
+
+    /**
+     * @function
+     * Gets the feed from a Instagram
+     */
+
+    getHealthCheck(userSelectedData: any);
+}
+
 /**
  * @file
  * Implement a http client to request mock data to use the
@@ -11,13 +32,24 @@
  * @class
  * Defines a http client to request mock data to use the web part with the local workbench
  */
-export default class MockHttpClient {
 
+export default class MockHttpClient  {
+    private static context: IWebPartContext;
+
+
+    /**
+     * @function
+     * Service constructor
+     */
+ 
+    constructor(_props: IHealthCheckContainerProps, pageContext: IWebPartContext) {
+        MockHttpClient.context = pageContext;
+    }
     /**
      * @var
      * Mock SharePoint list sample
      */
-    private static _apps: any[] = [{"AppName": "appname", "Env": "PRD",}];
+    private static _app: any[] = [{"AppName": "appname", "Env": "PRD",}];
 
     /**
      * @var
@@ -36,23 +68,23 @@ export default class MockHttpClient {
             } }
     ];
 
-    /**
-     * @function
-     * Mock get SharePoint list request
-     */
-    public static getApp(restUrl: string, options?: any): Promise<any[]> {
-      return new Promise<any[]>((resolve) => {
-            resolve(MockHttpClient._apps);
-        });
-    }
+    
 
     /**
      * @function
-     * Mock get SharePoint list items request
-     */
-    public static getAppServers(restUrl: string, options?: any): Promise<any[]> {
-      return new Promise<any[]>((resolve) => {
-            resolve(MockHttpClient._servers);
-        });
+     * Mock get SharePoint list request
+*/
+
+    public static getHealthCheck(userSelectedData?: any): Promise <void> {
+
+        return new Promise((resolve, reject) => {
+                resolve(data);
+        })
+        .then((response: HttpClientResponse) => {
+          return new Promise((resolve, reject) => {
+              return response;
+          });
+        })
+      .catch((error) => console.log(error));
     }
 }

@@ -9,6 +9,8 @@ import {
 } from '@microsoft/sp-webpart-base';
 import * as strings from 'HealthCheckWebPartStrings';
 import MockHttpClient from '../Search/MockHttpClient';
+import { SPHealthCheckResultsService } from './SPHealthCheckResultsService';
+
 
 
 
@@ -20,7 +22,7 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
 
   constructor(props :IHealthCheckContainerProps,context?: IWebPartContext) {
     super(props);
-    this.state = { checkResult : false, searchValue : []};
+    this.state = { checkResult : false, searchValue : [], responseValue: [], requestValue: []};
     //this.currContext = props.context;
     // this.state = {
     //   accountClaimed: true,
@@ -32,8 +34,8 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
     //   claimUrl: "",
     //   userExists: true
     // };
-    this._createTodoItem = this._createTodoItem.bind(this);
-
+    this.clickHealthChk = this.clickHealthChk.bind(this);
+    this.getHeathCheckList = this.getHeathCheckList.bind(this);
   }
 
 
@@ -51,13 +53,17 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
               <div className='panel-body'>
                 <div className='panel-container'>
                   <div className='panel-search'>
-                    <Healthsearch onSaveClick={this._createTodoItem}  listName={this.props.listName} HealthCheckPageTitle={this.props.HealthCheckPageTitle} HealthCheckCustomLabel1={this.props.HealthCheckCustomLabel1}
+                    <Healthsearch onSaveClick={this.clickHealthChk}  listName={this.props.listName} HealthCheckPageTitle={this.props.HealthCheckPageTitle} HealthCheckCustomLabel1={this.props.HealthCheckCustomLabel1}
                      HealthCheckCustomLabel2={this.props.HealthCheckCustomLabel2}  HealthCheckCustomLabel3={this.props.HealthCheckCustomLabel3}  HealthCheckCustomLabel4={this.props.HealthCheckCustomLabel4}  HealthCheckCustomButton1={this.props.HealthCheckCustomButton1}
                      HealthCheckCustomButton2={this.props.HealthCheckCustomButton2}  context={this.props.context}  />
                   </div>
                   <div>
                     <div className={styles["panel-Feedcontrol"]}>
-                      <SearchResults HealthResult={this.state.checkResult} />
+                      <SearchResults 
+                        HealthResult={this.state.checkResult}
+                        Response={this.state.responseValue}
+                        Request={this.state.requestValue}
+                       />
                     </div>
                   </div>
                 </div>
@@ -73,16 +79,55 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
     if (statevalue !== undefined || statevalue !== null) {
       if (statevalue.dataType !== undefined) {
         var tempStateVal = statevalue.dataValue;
-        this.setState({ searchValue: tempStateVal });
+        // this.setState({ searchValue: tempStateVal });
       }
     }
   }
+  private getHeathCheckList(requestValue)
+  {    
+        const listResultsService: SPHealthCheckResultsService = new SPHealthCheckResultsService(this.props, this.currContext);
+        var listvalues = [];
+        var serviceResults = listResultsService.getHealthCheckList(requestValue);
+        console.log(serviceResults, 'this is service results');
+        
+    //     .then((responseJSON: any) =>  
+    //     { 
+    //       console.log(responseJSON);
+          
+    //       this.setState({responseValue: listvalues});
+        
+    //     }).catch((err) => err);
+    return serviceResults;
 
-  private _createTodoItem(userSelectedData?: any) {
-    var appValue = MockHttpClient.getApp; 
-    var serversValue = MockHttpClient.getAppServers;
-    this.setState({ searchValue: {appValue, serversValue}, checkResult : true});
+    //resultitem=responseJSON.map((object: any, i: number) => {  var app = object[i]["Application"]
+    //listResultsService.getApplicationValue(webURL,listName).then((applicationResults) => 
+    //{
+    //this.setState({ results: applicationResults });
+    //}); 
+    // var listvalues = [];
+    // listvalues.push({key:'Application',text:'Application'});
+    // listvalues.push({key:'Servers',text:'Servers'});      
+    // listvalues.push(resultsData); 
+    // console.log(listvalues);
+    //return FinalDDLValuess
+  }
 
+  private clickHealthChk(userSelectedData?: any) {
+    var appValue = MockHttpClient.getHealthCheck(userSelectedData); 
+    // .then((res) => res)
+    // .catch((err)=>err);
+                        // .try{
+    
+                        // }
+    // var appValue = this.getHeathCheckList(userSelectedData);
+                                // .then((data) => {return data;})
+                                // .catch((err) => err); 
+    var responseValue = appValue;
+    // var serversValue = MockHttpClient.getAppServers;
+    this.setState({ responseValue: appValue, requestValue: userSelectedData , checkResult : true});
+    // console.log(this.state);
+    console.log(appValue);
+    
 
   }
 

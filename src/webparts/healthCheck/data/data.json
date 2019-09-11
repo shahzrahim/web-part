@@ -1,0 +1,47 @@
+{"Data": 
+    [ 
+        {
+        "AppName": "Focus",
+        "Env": "PRD",
+        "Servers": [
+            {"Server": 
+                {
+                    "Name": "prlfocusapp.grainger.com",
+                    "Chk": {
+                    "P": "14",
+                    "F": "0",
+                    "E": "15"
+                    },
+                    "Status": "Green",
+                    "Color": "#005566"
+                }
+            },
+            {"Server": 
+                {
+                    "Chk": {
+                    "P": "14",
+                    "F": "0",
+                    "E": "15"
+                    },
+                    "Color": "#005566",
+                    "Name": "prlfocusapp.grainger.com",
+                    "Status": "Green"
+                }
+            },
+            {"Server": 
+                {
+                    "Chk": {
+                    "P": "14",
+                    "F": "0",
+                    "E": "15"
+                    },
+                    "Color": "#005566",
+                    "Name": "prlfocusapp.grainger.com",
+                    "Status": "Green"
+                }
+            }
+
+        ]
+      }
+  ] 
+}

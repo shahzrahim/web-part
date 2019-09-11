@@ -59,6 +59,7 @@ const stackTokens: IStackTokens = { childrenGap: 20 };
 /*End-Custom Controls*/
 export default class HealthCheck extends React.Component<IHealthCheckProps,any> { 
   private currContext: IWebPartContext;  
+  serviceResults: any;
   constructor(props: IHealthCheckProps, context?: IWebPartContext) {
     super(props, context);
     this.currContext = props.context;
@@ -85,55 +86,48 @@ export default class HealthCheck extends React.Component<IHealthCheckProps,any> 
   public componentDidMount(): void 
   {    
    this.getApplicationDDValues(); 
-   //options=this.createSelectItems(resultss)
-   //console.log(options)
-   // resultss.forEach(c => 
-   //   {
-   //   options.push({
-    //    key: c.id,
-     ///   text: c.title
-   //   });
-   // });    
+   console.log(this.state.ddResults, 'this is DDresults');  
   } 
-
   
-  private getApplicationDDValues()
+  private getApplicationDDValues(): void
   {    
         var webURL = "https://atlcts.sharepoint.com/sites/GraingerTeams";
-        var listName = "App Config Test List";
+        var listName = "AppConfigTestList";
         const listResultsService: SPListResultsService = new SPListResultsService(this.props, this.currContext);
         var listvalues = [];
         listvalues.push({key:'Application',text:'Application'});
         listvalues.push({key:'Servers',text:'Servers'}); 
-        var serviceResults = listResultsService.getApplicationValue(webURL,listName);
-        // console.log(serviceResults);
         this.setState({ddResults: listvalues });
-
+        var serviceResults = listResultsService.getApplicationValue(webURL,listName);
+        // this.setState({ddResults: serviceResults });
+        console.log(serviceResults, 'this is the service results');
         
-    // .then((responseJSON) =>  
-    // { 
-    //       var listvalues = [];
-    //       listvalues.push({key:'Application',text:'Application'});
-    //       listvalues.push({key:'Servers',text:'Servers'}); 
-    //       
-    //       if (responseJSON!=undefined)
-    //                  {      
-    //                   return listvalues;
-    //                  }
-    //       else { this.setState({ddResults: listvalues});}
+
     
-    //     });
-    //resultitem=responseJSON.map((object: any, i: number) => {  var app = object[i]["Application"]
-    //listResultsService.getApplicationValue(webURL,listName).then((applicationResults) => 
-    //{
-    //this.setState({ results: applicationResults });
-    //}); 
-    // var listvalues = [];
-    // listvalues.push({key:'Application',text:'Application'});
-    // listvalues.push({key:'Servers',text:'Servers'});      
-    // listvalues.push(resultsData); 
-    // console.log(listvalues);
-    //return FinalDDLValuess
+    // .then((responseJSON: any) =>  
+        // { 
+        //   console.log(responseJSON);
+        // }
+          
+//              let resultitem =responseJSON.map((object: any, i: number) => {  
+              
+//               console.log(responseJSON[object[i]]);
+//               if (responseJSON!=undefined)
+//                  {
+//                   return listvalues;
+//               }
+//               else { 
+//                 listvalues.push({key:object,text:object[i]});
+//                 this.setState({ddResults: listvalues});
+//               }
+//             }
+          
+              
+            // }});
+// //         }).catch((err)=>err);
+//         console.log(serviceResults,'getDDvalues');
+        
+
   }
 
 
@@ -152,11 +146,11 @@ export default class HealthCheck extends React.Component<IHealthCheckProps,any> 
               <Dropdown placeholder="Select an option"  
                         options={this.state.ddResults} 
                         styles={dropdownStyles} 
-                        onChange={ this._onApplicationDDLChanged.bind(this)}/>
-              <p style={{color: "red"}}>{this.state.inputValue}</p>            
+                        onChanged={ this._onApplicationDDLChanged.bind(this)}/>
               
               <Label className={styles.custLabel}>{escape(this.props.HealthCheckCustomLabel2)}</Label>           
               <TextField onChange={this._handleTextFieldChange} 
+                         placeholder={this.state.inputValue}
                          styles={textFieldStyles}/>
               
               <Label className={styles.custLabel}>{escape(this.props.HealthCheckCustomLabel3)}</Label>
@@ -212,6 +206,7 @@ private _btnHealthChkClicked():void
   var currEnvnValue=this.state.environment;
   var currVerboseValue=this.state.verbose;
   var selectData=[];
+
   if(this.state.customGroup!=="" || this.state.customGroup !== null)
      selectData.push(this.state.customGroup);
   if(this.state.serverName!=="" || this.state.serverName !== null)
@@ -243,7 +238,7 @@ private _btnHealthChkClicked():void
   
   var selectedData = [CurrApplnValue,currServerNameValue,currEnvnValue,currVerboseValue];//
   // selectedData.push("button clicked");
-  console.log(selectedData);
+  // console.log(selectedData);
   
  // this.props.onSaveClick(selectedData);
  this.props.onSaveClick(selectedData);
@@ -253,13 +248,13 @@ private _onApplicationDDLChanged(event)
 { 
   var DDlApplSelectedValue = event.key; 
   this.setState( { customGroup: event.key} ); 
-  console.log('The Application dropdown value is :'+DDlApplSelectedValue);
+  // console.log('The Application dropdown value is :'+event.key);
   if(DDlApplSelectedValue=='Application' || DDlApplSelectedValue=='Server')
   {
     this.setState({
-//inputValue: 'Text Field is Mandatory'
+      inputValue: 'Text Field is Mandatory'
     });
-    console.log('The entered Server name is : Application / Server')
+    // console.log('The entered Server name is : Application / Server');
   } 
   else
   {
@@ -272,15 +267,15 @@ private _onApplicationDDLChanged(event)
 private _handleTextFieldChange(event) {
   this.setState( { serverName: event.target.value} ); 
   //this.state={serverName: event.target.value};
-  console.log('The entered Server name is :'+event.target.value);
+  // console.log('The entered Server name is :'+event.target.value);
   //this.setState({txtServer:event.target.value})
 }
 //DDLEnvironment
 private _onEnvironmentDDLChanged(event) 
 { 
   var DDlEnvnSelectedValue = event.key; 
-  this.setState( { environment: event.key} )
-  console.log('The Environment dropdown value is :'+DDlEnvnSelectedValue); 
+  this.setState( { environment: event.key} );
+  // console.log('The Environment dropdown value is :'+DDlEnvnSelectedValue); 
   //this.setState({txtServer:event.target.value})
 
 }
@@ -291,8 +286,8 @@ public _onChkVerboseChange(e)
   // this.setState( { verbose: this._flip(isChecked)} );
   console.log(this.state.verbose);
     this.setState( { verbose: isChecked} );
-  console.log('The Verbose checkbox value is :'+isChecked);
-  console.log(this.state.results);
+  // console.log('The Verbose checkbox value is :'+isChecked);
+  // console.log(this.state.results);
   
   //this.setState({chkVerbosevalue :e.target.checked})
   // do whatever you want with isChecked value
