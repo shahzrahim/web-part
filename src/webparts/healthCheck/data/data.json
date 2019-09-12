@@ -6,6 +6,7 @@
         "Servers": [
             {"Server": 
                 {
+                    "DateTime":"09-10-30 10:20:20",
                     "Name": "prlfocusapp.grainger.com",
                     "Chk": {
                     "P": "14",
@@ -18,6 +19,7 @@
             },
             {"Server": 
                 {
+                    "DateTime":"09-10-30 10:20:20",
                     "Chk": {
                     "P": "14",
                     "F": "0",
@@ -30,6 +32,7 @@
             },
             {"Server": 
                 {
+                    "DateTime":"09-10-30 10:20:20",
                     "Chk": {
                     "P": "14",
                     "F": "0",

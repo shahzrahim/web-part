@@ -10,6 +10,10 @@
     width : 385;
     padding-top : 50px;
   }
+  .headerBlock {
+    padding-left: 50px;
+    border: red solid 2px;
+  }
 
   .row {
     @include ms-Grid-row;

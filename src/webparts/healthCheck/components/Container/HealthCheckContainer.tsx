@@ -22,7 +22,12 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
 
   constructor(props :IHealthCheckContainerProps,context?: IWebPartContext) {
     super(props);
-    this.state = { checkResult : false, searchValue : [], responseValue: [], requestValue: []};
+    this.state = { checkResult : false, searchValue : [], responseValue: [], requestValue: [],
+    verbose: null,
+    customGroup:"",
+    serverType:"",
+    environment:"",  
+    };
     //this.currContext = props.context;
     // this.state = {
     //   accountClaimed: true,
@@ -60,9 +65,13 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
                   <div>
                     <div className={styles["panel-Feedcontrol"]}>
                       <SearchResults 
-                        HealthResult={this.state.checkResult}
                         Response={this.state.responseValue}
                         Request={this.state.requestValue}
+                        HealthResult={this.state.checkResult}
+                        customGroup={this.state.customGroup}
+                        serverType={this.state.serverType}
+                        environment={this.state.environment}
+                        verbose={this.state.verbose}
                        />
                     </div>
                   </div>
@@ -124,9 +133,18 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
                                 // .catch((err) => err); 
     var responseValue = appValue;
     // var serversValue = MockHttpClient.getAppServers;
+    console.log(userSelectedData, 'inside the clickHealthChk');
+    this.setState({
+      customGroup: userSelectedData[0],
+      serverType: userSelectedData[1],
+      environment: userSelectedData[2],
+      verbose: userSelectedData[3],
+    });
+
+    
     this.setState({ responseValue: appValue, requestValue: userSelectedData , checkResult : true});
     // console.log(this.state);
-    console.log(appValue);
+    // console.log(appValue);
     
 
   }

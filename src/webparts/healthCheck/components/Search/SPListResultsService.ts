@@ -55,6 +55,7 @@ export class SPListResultsService implements ISPListResultsService {
               {                 
                  if (responseJSON!=null)
                     {      
+
                         let applnValues=[];
                         var defaultArry=[];    
                         defaultArry.push({key:'Application',text:'Application'});
@@ -62,15 +63,21 @@ export class SPListResultsService implements ISPListResultsService {
                         //Code to get the column values from the sharepoint list with duplicate values to array.
                         let itemsvalue:any[] = responseJSON.value;                
                         itemsvalue.forEach(c => {
-                            applnValues.push({                                                      
-                            // Text:c.Application
+                            applnValues.push({
                             key: c.Application,
                             text: c.Application
                             });
                         });                     
+                        console.log(itemsvalue,'this is responseJSON value');
+                        
                         console.log(applnValues,'this is appInValues');
-                        FinalDDLValues.push(applnValues);                     
-                    return applnValues; 
+                        FinalDDLValues.push(applnValues[0]); 
+                        let resultObj = {
+                            'data' : applnValues
+                        };    
+                        console.log(resultObj, 'this is resultOBJ');
+                                       
+                    return resultObj; 
                     
 
                     }

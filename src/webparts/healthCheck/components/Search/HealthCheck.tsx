@@ -59,7 +59,7 @@ const stackTokens: IStackTokens = { childrenGap: 20 };
 /*End-Custom Controls*/
 export default class HealthCheck extends React.Component<IHealthCheckProps,any> { 
   private currContext: IWebPartContext;  
-  serviceResults: any;
+  private serviceResults: any;
   constructor(props: IHealthCheckProps, context?: IWebPartContext) {
     super(props, context);
     this.currContext = props.context;
@@ -98,16 +98,18 @@ export default class HealthCheck extends React.Component<IHealthCheckProps,any> 
         listvalues.push({key:'Application',text:'Application'});
         listvalues.push({key:'Servers',text:'Servers'}); 
         this.setState({ddResults: listvalues });
-        var serviceResults = listResultsService.getApplicationValue(webURL,listName);
+        this.serviceResults = listResultsService.getApplicationValue(webURL,listName).then((responseJSON: any) =>  
+        { 
+          console.log(responseJSON, 'this is response from Health Check call');
+          return responseJSON;
+        })
+        .catch((err) => err);
         // this.setState({ddResults: serviceResults });
-        console.log(serviceResults, 'this is the service results');
+        console.log(this.serviceResults, 'this is the service results');
         
 
     
-    // .then((responseJSON: any) =>  
-        // { 
-        //   console.log(responseJSON);
-        // }
+
           
 //              let resultitem =responseJSON.map((object: any, i: number) => {  
               
@@ -227,21 +229,15 @@ private _btnHealthChkClicked():void
     else
     {
       this.setState({ inputValue: ''});
-      //this.props.onSaveClick(selectedData);  
     }
   }
   else
   {
     this.setState({ inputValue: ''});
-    //this.props.onSaveClick(selectedData);
   }
   
   var selectedData = [CurrApplnValue,currServerNameValue,currEnvnValue,currVerboseValue];//
-  // selectedData.push("button clicked");
-  // console.log(selectedData);
-  
- // this.props.onSaveClick(selectedData);
- this.props.onSaveClick(selectedData);
+  this.props.onSaveClick(selectedData);
  }
 //DDLApplication
 private _onApplicationDDLChanged(event) 

@@ -5,6 +5,9 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import * as strings from 'HealthCheckWebPartStrings';
 import { Spinner } from "office-ui-fabric-react";
 var data: any = require('../../data/data.json');
+var resultStyles = {
+  color: "Red",
+};
 
 
 export interface IHealthResultState {
@@ -32,34 +35,26 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
         serverType:"",
         environment:"",
         verbose:null,
-        resultData: data['Data'][0].Servers
+        resultData: data['Data'][0],
       };
       this.showResults = this.showResults.bind(this);
   }
 
 public componentDidMount(): void {
-    console.log("inside didMount");
-    console.log('retrieve data', this.state.resultData);
-    
- 
-    
-    this.setState({isLoading:false, groupselectedValues: this.props.Request});
+    this.setState({groupselectedValues: this.props.Request, isLoading:false });
 
-  
 }
   //   componentWillReceiveProps is 
   public componentWillReceiveProps(nextProps: IHealthResultProps): void { 
-      if(this.props.HealthResult === true ) {
-        this.setState({isLoading : true, count: 1, groupselectedValues: this.props.Request});
-      }  
-  
-      console.log('inside will receive props',this.props.Request);
-      if (nextProps.Request != this.props.Request) {
-        this.setState({groupselectedValues: nextProps.Request});
-        this.updateInputs(this.state.groupselectedValues);
-      }
+    console.log(nextProps, 'this is the updated props');
+    this.setState({groupselectedValues: nextProps.Request});
+    this.updateInputs(nextProps);
+    console.log(this.state, 'this is the state after updated Props');
 
-      
+      if(this.props.HealthResult === true ) {
+        this.setState({groupselectedValues: nextProps.Request, isLoading : true });
+      }  
+
       this.raiseCount();
       this.showLoader();
       
@@ -67,11 +62,10 @@ public componentDidMount(): void {
 
   private showLoader(): any {
     this.setState({isLoading: true});
-    console.log('Outside the showLoader function',this.state.isLoading);
+    // console.log('Outside the showLoader function',this.state.isLoading);
     setTimeout(()=> {
-      this.setState({isLoading: !this.state.isLoading});
-      console.log('within the showLoader function',this.state.isLoading);
-    },4000);
+      this.setState({isLoading: false});
+    },3000);
 
 
   }
@@ -80,27 +74,46 @@ public componentDidMount(): void {
     this.setState({ count : (this.state.count + 1)});
   }
 
-  private updateInputs(groupselectedValues): any {
+  private updateInputs(nextProps): any {
     this.setState({
-      customGroup: groupselectedValues[0],
-      serverType: groupselectedValues[1],
-      environment: groupselectedValues[2],
-      verbose: groupselectedValues[3],
+      customGroup: nextProps.customGroup,
+      serverType: nextProps.serverType,
+      environment: nextProps.environment,
+      verbose: nextProps.verbose,
 
     });
   }
 
-  private showResults(): any {
+ 
 
-    var listItems = this.state.resultData.map((server) => {
-      console.log(server.Server, 'inside showResults');
-      return (
-        <li key="{server.Server['Name']}">
-          {server.Server['Name']} <br/>
-          {server.Server['Color']} <br/>
-          {server.Server['Status']} <br/>
-        </li>
-      );
+  private showResults(): any {
+    let showData = this.state.resultData.Servers;
+    var chkP: any;
+    var chkF: any;
+    var chkE: any;
+    var checkBlock: any;
+
+
+    var listItems = showData.map((server, i) => {
+      resultStyles.color = server.Server.Color;
+      
+      if(this.state.verbose) {
+        chkP = server.Server.Chk.P;
+        chkF = server.Server.Chk.F;
+        chkE = server.Server.Chk.E;
+        checkBlock = (<div>(Chks: P:{chkP} F:{chkF} E:{chkE} )</div>);
+      }
+
+          return (
+            <li key='server[i]'>
+            {server.Server.DateTime}  <br/>
+            {server.Server.Name} <br/> 
+            (App:{this.state.resultData.AppName}) <br/>
+            {checkBlock} 
+            <div style={resultStyles}>{server.Server.Status} </div> <br/>
+          </li>
+        );
+
     });
 
     return (
@@ -113,6 +126,8 @@ public componentDidMount(): void {
   
   public render(): React.ReactElement<IHealthResultProps> {
     //const resultStyle = this.props.HealthResult ? { display: 'block' } : { display: 'none' };
+    const resultStyle =  { display: 'block', padding: '0 20px' };
+
     let check = (this.state.verbose) ? "On" : "Off";
     var loadingBlock = 
                       // tslint:disable-next-line: no-unused-expression
@@ -121,7 +136,7 @@ public componentDidMount(): void {
                           <Spinner label={strings.loadingFeed} />
                         </div>
                       </div>); 
-    var headerBlock = (<div>
+    var headerBlock = (<div className="headerBlock">
                         <p>
                         Running Health Check <br/>
                         Server/Group: "{this.state.customGroup}" Type: "{this.state.serverType}" ENV: "{this.state.environment}" Verbose Mode:"{check}"
@@ -144,11 +159,9 @@ public componentDidMount(): void {
         );
     }
     if(this.state.count !== 0 && !this.state.isLoading) { 
-      return (
-        <div>
+    return (<div style={resultStyle}>
           {headerBlock} 
           {resultBlock}
-          {/* {this.showResults()} */}
         </div>
         );
     }
@@ -162,7 +175,7 @@ public componentDidMount(): void {
 
 
 
-    const resultStyle =  { display: 'block' };
+    
       return (
       <div className="results-contain">
         <div className={styles["results-contain"]}>
