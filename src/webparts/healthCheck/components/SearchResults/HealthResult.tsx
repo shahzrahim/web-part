@@ -139,7 +139,7 @@ public componentDidMount(): void {
     var headerBlock = (<div className="headerBlock">
                         <p>
                         Running Health Check <br/>
-                        Server/Group: "{this.state.customGroup}" Type: "{this.state.serverType}" ENV: "{this.state.environment}" Verbose Mode:"{check}"
+                        Server/Group: {this.state.customGroup} Type: {this.state.serverType} ENV: {this.state.environment} Verbose Mode:{check}
                         </p>
                       </div>);
     var resultBlock = this.showResults();
