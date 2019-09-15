@@ -71,20 +71,20 @@ export class SPListResultsService implements ISPListResultsService {
                         console.log(itemsvalue,'this is responseJSON value');
                         
                         console.log(applnValues,'this is appInValues');
-                        FinalDDLValues.push(applnValues[0]); 
+                        FinalDDLValues.push(applnValues); 
                         let resultObj = {
                             'data' : applnValues
                         };    
                         console.log(resultObj, 'this is resultOBJ');
                                        
-                    return resultObj; 
+                    return applnValues; 
                     
 
                     }
             });
         }
 
-      })
-      .catch((err)=> console.log(err));
+      });
+    //   .catch((err)=> console.log(err));
     }
 }

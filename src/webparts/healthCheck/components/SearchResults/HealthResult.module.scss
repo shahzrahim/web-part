@@ -1,6 +1,10 @@
 @import '~office-ui-fabric-react/dist/sass/References.scss';
 .healthResult
 {
+  ul{ list-style-type: none; }
+  .dataList{
+    background-color: lightblue;
+  }
   .result-message
   {
     padding-top : 50px;

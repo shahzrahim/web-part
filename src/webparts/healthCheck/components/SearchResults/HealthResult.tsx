@@ -17,7 +17,7 @@ export interface IHealthResultState {
     customGroup:string;
     serverType:string;
     environment:string;
-    verbose: boolean; 
+    verbose: boolean;
     resultData: any;
   }
 
@@ -46,10 +46,8 @@ public componentDidMount(): void {
 }
   //   componentWillReceiveProps is 
   public componentWillReceiveProps(nextProps: IHealthResultProps): void { 
-    console.log(nextProps, 'this is the updated props');
     this.setState({groupselectedValues: nextProps.Request});
     this.updateInputs(nextProps);
-    console.log(this.state, 'this is the state after updated Props');
 
       if(this.props.HealthResult === true ) {
         this.setState({groupselectedValues: nextProps.Request, isLoading : true });
@@ -57,6 +55,7 @@ public componentDidMount(): void {
 
       this.raiseCount();
       this.showLoader();
+
       
   }
 
@@ -84,6 +83,7 @@ public componentDidMount(): void {
     });
   }
 
+
  
 
   private showResults(): any {
@@ -92,6 +92,18 @@ public componentDidMount(): void {
     var chkF: any;
     var chkE: any;
     var checkBlock: any;
+    let ulStyles = {
+      // border: "2px red solid", 
+      backgroundColor: "#ecebeb",
+      listStyleType: "none",
+      fontWeight: 'bold' as 'bold',
+    };
+
+    if(!showData) {
+      return (<div>
+        There was an error when attempting to collect Health Check Data. Please try again.
+      </div>);
+    }
 
 
     var listItems = showData.map((server, i) => {
@@ -105,21 +117,23 @@ public componentDidMount(): void {
       }
 
           return (
-            <li key='server[i]'>
+            <div key='server[i]'>
             {server.Server.DateTime}  <br/>
             {server.Server.Name} <br/> 
             (App:{this.state.resultData.AppName}) <br/>
             {checkBlock} 
             <div style={resultStyles}>{server.Server.Status} </div> <br/>
-          </li>
+          </div>
         );
 
     });
 
-    return (
-        <ul>
+    return (<div style={ulStyles}>
+
+        <ul className={styles["dataList"]} >
           {listItems}
         </ul>
+    </div>
     );
   }
 
@@ -197,32 +211,3 @@ public componentDidMount(): void {
   }
 
 }
-  //   componentWillReceiveProps is 
-  // public componentWillReceiveProps(nextProps: IHealthResultProps): void {   
-    //     if (this.props.groupselectedValues !== nextProps.groupselectedValues && nextProps.groupselectedValues.length > 0) {   
-    //     if (this.CheckGroupValueExists(nextProps.groupselectedValues)) {
-    //       this.setState({ groupresults: [], myresults: [], isLoading: true });
-    //       if (this.props.groupselectedValues != undefined) {
-    //         if (this.props.groupselectedValues.length > 0) {
-    //           const commonService: common = new common();
-    //           commonService._clearCache(this._sessionStorageKey + this.custStoragekey_getNewsFeed + this.groupFeed);
-    //           commonService._clearCache(this._sessionStorageKey + this.custStoragekey_getNewsFeed + this.myFeed);
-    //         }       
-    //       this.GetFeedDataFromGraphAPI(nextProps.groupselectedValues);
-    //       //this.GetMyFeedDataFromGraphAPI();
-    //       this.setState({ hasGrp: true });
-    //     }
-    //     else {
-    //       this.setState({ hasGrp: false, isLoading: false });
-    //     }
-    //   }
-    // } 
-        // console.log('inside the will Receive Props');
-        // console.log(this.props);
-        
-        // var newProps = this.nextProps;
-        // // console.log(newProps);
-        // this.setState({isLoading:false});
-    
-    
-        // if(this.nextProps.HealthResult !== true ) {return this.setState({isLoading : true});}

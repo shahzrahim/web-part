@@ -22,9 +22,9 @@ import { string } from 'prop-types';
 const ApplicationOptions: IDropdownOption[] = [  
   { key: 'Application', text: 'Application' },
   { key: 'Server', text: 'Server' },
-  { key: 'Owners', text: 'Owners'},
-  { key: 'Members', text: 'Members' },
-    
+  { key: 'Focus', text: 'Focus' },
+  { key: 'Focus', text: 'Focus' },
+  { key: 'Focus', text: 'Focus' },
 ];
 const EnvironmentOptions: IDropdownOption[] = [  
    { key: 'Prd', text: 'PRD' },
@@ -39,22 +39,6 @@ const textFieldStyles: Partial<ITextFieldStyles> = {
   field : { width: 384 }
 };
 
-// const exampleStyles: IButtonBasicExampleStyles = {
-//   twoup: [
-//     'ms-BasicButtonsTwoUp',
-//     {
-//       display: 'flex',
-//       selectors: {
-//         '& > *': {
-//           flexGrow: 1
-//         },
-//         '.ms-Label': {
-//           marginBottom: '10px'
-//         }
-//       }
-//     }
-//   ]
-// };
 const stackTokens: IStackTokens = { childrenGap: 20 };  
 /*End-Custom Controls*/
 export default class HealthCheck extends React.Component<IHealthCheckProps,any> { 
@@ -64,14 +48,19 @@ export default class HealthCheck extends React.Component<IHealthCheckProps,any> 
     super(props, context);
     this.currContext = props.context;
     this.state = {
+      errorMsg1: "",
+      errorMsg2: "",
+      errorMsg3: "",
       ddResults: [],
       results: [],
       inputValue: "",
       customGroup:"",
       serverName:"",
       environment:"",
-      verbose:false 
+      verbose:false,
+      bttnDisable: true, 
      },    
+    this.clearMsg=this.clearMsg.bind(this);
     this._btnHealthChkClicked=this._btnHealthChkClicked.bind(this);
     this._btnCancelClicked = this._btnCancelClicked.bind(this);
     this._onApplicationDDLChanged = this._onApplicationDDLChanged.bind(this);
@@ -98,13 +87,14 @@ export default class HealthCheck extends React.Component<IHealthCheckProps,any> 
         listvalues.push({key:'Application',text:'Application'});
         listvalues.push({key:'Servers',text:'Servers'}); 
         this.setState({ddResults: listvalues });
-        this.serviceResults = listResultsService.getApplicationValue(webURL,listName).then((responseJSON: any) =>  
-        { 
-          console.log(responseJSON, 'this is response from Health Check call');
-          return responseJSON;
-        })
-        .catch((err) => err);
-        // this.setState({ddResults: serviceResults });
+        this.serviceResults = listResultsService.getApplicationValue(webURL,listName);
+        // .then((responseJSON: any) =>  
+        // { 
+        //   console.log(responseJSON, 'this is response from Health Check call');
+        //   return responseJSON;
+        // })
+        // .catch((err) => err);
+        // // this.setState({ddResults: serviceResults });
         console.log(this.serviceResults, 'this is the service results');
         
 
@@ -136,6 +126,7 @@ export default class HealthCheck extends React.Component<IHealthCheckProps,any> 
   public render(): React.ReactElement<IHealthCheckProps> 
   {   
   //  console.log(this.state.results);
+  
    
     return (
       <div className={ styles.healthCheck }>
@@ -146,14 +137,18 @@ export default class HealthCheck extends React.Component<IHealthCheckProps,any> 
 
               <Label className={styles.custLabel}>{escape(this.props.HealthCheckCustomLabel1)}</Label>                      
               <Dropdown placeholder="Select an option"  
-                        options={this.state.ddResults} 
+                        options={ApplicationOptions} 
                         styles={dropdownStyles} 
                         onChanged={ this._onApplicationDDLChanged.bind(this)}/>
+                        <p style={{color: "red"}}>{this.state.errorMsg1}</p> 
+
               
               <Label className={styles.custLabel}>{escape(this.props.HealthCheckCustomLabel2)}</Label>           
               <TextField onChange={this._handleTextFieldChange} 
-                         placeholder={this.state.inputValue}
+                        //  placeholder={this.state.inputValue}
+                        value={this.state.serverName}
                          styles={textFieldStyles}/>
+                         <p style={{color: "red"}}>{this.state.errorMsg2}</p> 
               
               <Label className={styles.custLabel}>{escape(this.props.HealthCheckCustomLabel3)}</Label>
               <Dropdown placeholder="Select an option" 
@@ -161,12 +156,17 @@ export default class HealthCheck extends React.Component<IHealthCheckProps,any> 
                         styles={dropdownStyles} 
                         onChanged={ this._onEnvironmentDDLChanged.bind(this)} />
                         <div className={styles["hideDiv"]}>
+                        <p style={{color: "red"}}>{this.state.errorMsg3}</p> 
 
-              </div>                  
-            </div>
+
+            </div>                  
+          </div>
           
-          <div className={styles.custButton}>
-          <Checkbox className="checkBox" label="Verbose Mode" onChange={e => this._onChkVerboseChange(e)}/>
+                  <div className={styles.custButton}>
+                  <Checkbox className="checkBox" 
+                  label="Verbose Mode" 
+                  onChange={e => this._onChkVerboseChange(e)}
+                  />
           <table>            
             <tr><td><b></b></td>
             <td> 
@@ -197,17 +197,48 @@ export default class HealthCheck extends React.Component<IHealthCheckProps,any> 
 private _btnCancelClicked(): void 
 {  
   console.log('should clear the form');
+  this.setState({
+    customGroup:"",
+    serverName:"",
+    environment:"",
+    verbose:false,
+  });
   
 } 
+
+private clearMsg(): void
+{
+  this.setState({
+    errorMsg1: "",
+    errorMsg2: "",
+    errorMsg3: "",
+  });
+}
 //btnHealthChk
 private _btnHealthChkClicked():void
 {
-
   var CurrApplnValue=this.state.customGroup;
   var currServerNameValue=this.state.serverName;
   var currEnvnValue=this.state.environment;
   var currVerboseValue=this.state.verbose;
   var selectData=[];
+
+  if(this.state.customGroup=="")
+  {
+    this.setState({
+      errorMsg1: 'Application is Mandatory'
+    });
+  }
+
+  if(this.state.environment==""){
+    {
+      this.setState({
+        errorMsg3: 'Environment is Mandatory'
+      });
+    }
+  }
+
+
 
   if(this.state.customGroup!=="" || this.state.customGroup !== null)
      selectData.push(this.state.customGroup);
@@ -220,24 +251,21 @@ private _btnHealthChkClicked():void
   
   if(this.state.customGroup==='Application' || this.state.customGroup==='Server')
   {
-    if(this.state.serverName==="" || this.state.serverName === null)
-    {
       this.setState({
-        inputValue: 'Text Field is Mandatory'
+        errorMsg2: 'Text Field is Mandatory'
       });
-    }
-    else
-    {
-      this.setState({ inputValue: ''});
-    }
   }
   else
   {
     this.setState({ inputValue: ''});
   }
   
-  var selectedData = [CurrApplnValue,currServerNameValue,currEnvnValue,currVerboseValue];//
-  this.props.onSaveClick(selectedData);
+  var selectedData = [CurrApplnValue,currServerNameValue,currEnvnValue,currVerboseValue];
+  if(this.state.errorMsg1 !== "" || this.state.errorMsg2 !=="" || this.state.errorMsg3 !=="") {
+    this.props.onSaveClick(selectedData);
+    this.clearMsg();
+  }
+
  }
 //DDLApplication
 private _onApplicationDDLChanged(event) 
@@ -288,4 +316,14 @@ public _onChkVerboseChange(e)
   //this.setState({chkVerbosevalue :e.target.checked})
   // do whatever you want with isChecked value
 }
+public clearForm()
+{
+
+}
+
 } 
+
+// create a clear form function -check
+// set state for bttnDisabled = true;
+// if all values are selected then bttn can be selected.
+// create enableBttn function, call it in didMount

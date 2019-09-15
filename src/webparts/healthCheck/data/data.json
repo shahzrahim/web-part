@@ -1,6 +1,7 @@
 {"Data": 
     [ 
         {
+        "Status": "finish",
         "AppName": "Focus",
         "Env": "PRD",
         "Servers": [
