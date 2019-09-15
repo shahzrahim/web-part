@@ -85,8 +85,9 @@ public componentDidMount(): void {
 
 
  
-
+// the function that is called to map response and check for errors
   private showResults(): any {
+    let status = this.state.resultData.Status;
     let showData = this.state.resultData.Servers;
     var chkP: any;
     var chkF: any;
@@ -99,7 +100,7 @@ public componentDidMount(): void {
       fontWeight: 'bold' as 'bold',
     };
 
-    if(!showData) {
+    if(!showData || status !== "continue" || status !== "finish") {
       return (<div>
         There was an error when attempting to collect Health Check Data. Please try again.
       </div>);
