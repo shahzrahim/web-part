@@ -2,7 +2,7 @@
     "Data": 
     [ 
         {
-        "Status": "finish",
+        "Status": "continue",
         "AppName": "Focus",
         "Env": "PRD",
         "Servers": [
