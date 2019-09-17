@@ -217,7 +217,7 @@ private clearMsg(): void
 //btnHealthChk
 private _btnHealthChkClicked():void
 {
-  var CurrApplnValue=this.state.customGroup;
+  var currApplnValue=this.state.customGroup;
   var currServerNameValue=this.state.serverName;
   var currEnvnValue=this.state.environment;
   var currVerboseValue=this.state.verbose;
@@ -229,14 +229,25 @@ private _btnHealthChkClicked():void
       errorMsg1: 'Application is Mandatory'
     });
   }
+  (this.state.customGroup=="") ? this.setState({errorMsg1: 'Selection is Mandatory'}):this.setState({errorMsg1: ''});
 
-  if(this.state.environment==""){
-    {
-      this.setState({
-        errorMsg3: 'Environment is Mandatory'
-      });
-    }
+
+  if(currApplnValue ==='Application' || currApplnValue ==='Server') {
+    this.setState({
+      errorMsg2: 'Text Field is Mandatory'
+    });
   }
+
+  (this.state.environment=="") ? this.setState({errorMsg3: 'Selection is Mandatory'}):this.setState({errorMsg3: ''});
+
+
+  // if(this.state.environment==""){
+  //   {
+  //     this.setState({
+  //       errorMsg3: 'Environment is Mandatory'
+  //     });
+  //   }
+  // }
 
 
 
@@ -249,19 +260,21 @@ private _btnHealthChkClicked():void
   if(this.state.verbose!=="" || this.state.verbose !== null)
      selectData.push(this.state.verbose);
   
-  if(this.state.customGroup==='Application' || this.state.customGroup==='Server')
-  {
-      this.setState({
-        errorMsg2: 'Text Field is Mandatory'
-      });
-  }
-  else
-  {
-    this.setState({ inputValue: ''});
-  }
+
+  // else
+  // {
+  //   this.setState({ inputValue: ''});
+  // }
   
-  var selectedData = [CurrApplnValue,currServerNameValue,currEnvnValue,currVerboseValue];
-  if(this.state.errorMsg1 !== "" || this.state.errorMsg2 !=="" || this.state.errorMsg3 !=="") {
+  console.log(currApplnValue, 'this is server type value');
+  
+  var selectedData = [currApplnValue,currServerNameValue,currEnvnValue,currVerboseValue];
+
+  // currApplnValue !=="" || currEnvnValue !=="") && this.state.errorMsg2 == ""
+  // if() {
+  //   this.setState({bttnDisable:false});
+  // }
+  if((currApplnValue !=="" && currApplnValue !== "Application" && currApplnValue !== "Server") && currEnvnValue !==""){
     this.props.onSaveClick(selectedData);
     this.clearMsg();
   }
@@ -273,19 +286,6 @@ private _onApplicationDDLChanged(event)
   var DDlApplSelectedValue = event.key; 
   this.setState( { customGroup: event.key} ); 
   // console.log('The Application dropdown value is :'+event.key);
-  if(DDlApplSelectedValue=='Application' || DDlApplSelectedValue=='Server')
-  {
-    this.setState({
-      inputValue: 'Text Field is Mandatory'
-    });
-    // console.log('The entered Server name is : Application / Server');
-  } 
-  else
-  {
-    this.setState({
-      //inputValue: ''
-    });
-  } 
 }
 //TxtServerName
 private _handleTextFieldChange(event) {
@@ -324,6 +324,6 @@ public clearForm()
 } 
 
 // create a clear form function -check
-// set state for bttnDisabled = true;
+// set state for bttnDisabled = true; - check
 // if all values are selected then bttn can be selected.
 // create enableBttn function, call it in didMount
