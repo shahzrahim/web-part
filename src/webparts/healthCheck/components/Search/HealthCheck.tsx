@@ -273,16 +273,24 @@ private _btnHealthChkClicked():void
   // currApplnValue !=="" || currEnvnValue !=="") && this.state.errorMsg2 == ""
   // if() {
   //   this.setState({bttnDisable:false});
-  // }
-  if((currApplnValue !=="" && currApplnValue !== "Application" && currApplnValue !== "Server") && currEnvnValue !==""){
-    this.props.onSaveClick(selectedData);
-    this.clearMsg();
-  }
+  // }        this.props.onSaveClick(selectedData);
+  if(currApplnValue !="" && currEnvnValue !=""){
 
+    if (currApplnValue != "Application" || currApplnValue != "Server") {
+      this.props.onSaveClick(selectedData);
+      this.clearMsg();
+    } else {
+      if(currServerNameValue.length > 0) {
+        this.props.onSaveClick(selectedData);
+        this.clearMsg();
+      }
+    }
+  }
+    
  }
 //DDLApplication
 private _onApplicationDDLChanged(event) 
-{ 
+{  
   var DDlApplSelectedValue = event.key; 
   this.setState( { customGroup: event.key} ); 
   // console.log('The Application dropdown value is :'+event.key);
@@ -316,9 +324,9 @@ public _onChkVerboseChange(e)
   //this.setState({chkVerbosevalue :e.target.checked})
   // do whatever you want with isChecked value
 }
-public clearForm()
+public enableBttn()
 {
-
+ this.setState({bttnDisable:!this.state.bttnDisable});
 }
 
 } 
