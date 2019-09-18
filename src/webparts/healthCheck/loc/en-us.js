@@ -13,6 +13,9 @@ define([], function() {
     "PageCancelBtnFieldLabel":"Health Check Custom Button2",
     "resultMessage" : "08-21-19 20:20:10: pr1focap002.us.grainger.com: (App:Focus): (Chks: P:14 F:0 E:9): GREEN",
     "initialFeed" : "Please complete form to check for Health Status",
-    "loadingFeed" : "please wait while we are loading"
+    "loadingFeed" : "please wait while we are loading",
+    "HealthCheckAzureUrl" : "Please enter the Azure Url",
+    "HealthCheckSharepointListName": "Please enter the Sharepoint List Name",
+    "HealthCheckSharepointUrl": "Please enter the Sharepoint URL"
   }
 });

@@ -8,21 +8,23 @@ export interface IHealthCheckContainerProps {  // description: string;
   HealthCheckCustomLabel3: string;
   HealthCheckCustomLabel4: string;
   HealthCheckCustomButton1: string;
-  HealthCheckCustomButton2: string;  
-  context : IWebPartContext;
+  HealthCheckCustomButton2: string;
+  context: IWebPartContext;
+  HealthCheckAzureUrl: string;
+  HealthCheckSharepointListName: string;
+  HealthCheckSharepointURL: string;
+}
 
- }
-
- export interface IHealthCheckContainerState
- {
-  checkResult : boolean;
-   searchValue : any;
-   responseValue: any;
-   requestValue: any;
-   verbose: boolean;
-   customGroup:string;
-   serverType:string;
-   environment:string;
+export interface IHealthCheckContainerState {
+  checkResult: boolean;
+  searchValue: any;
+  responseValue: any;
+  requestValue: any;
+  verbose: boolean;
+  customGroup: string;
+  serverType: string;
+  environment: string;
+  sessionKey: any;
+  
   //  isSpinnerHidden: boolean;
- }
- 
+}

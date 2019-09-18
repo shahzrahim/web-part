@@ -10,6 +10,7 @@ import {
 import * as strings from 'HealthCheckWebPartStrings';
 import MockHttpClient from '../Search/MockHttpClient';
 import { SPHealthCheckResultsService } from './SPHealthCheckResultsService';
+import ls from 'local-storage';
 
 
 
@@ -26,7 +27,8 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
     verbose: null,
     customGroup:"",
     serverType:"",
-    environment:"",  
+    environment:"", 
+    sessionKey: String(Math.floor(Math.random() * 10)),
     };
     //this.currContext = props.context;
     // this.state = {
@@ -43,6 +45,9 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
     this.getHeathCheckList = this.getHeathCheckList.bind(this);
   }
 
+  public componentDidMount() {
+    localStorage.setItem('session-key', this.state.sessionKey);
+  }
 
   public render(): React.ReactElement<IHealthCheckContainerProps> {  
         return (
@@ -60,7 +65,7 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
                   <div className='panel-search'>
                     <Healthsearch onSaveClick={this.clickHealthChk}  listName={this.props.listName} HealthCheckPageTitle={this.props.HealthCheckPageTitle} HealthCheckCustomLabel1={this.props.HealthCheckCustomLabel1}
                      HealthCheckCustomLabel2={this.props.HealthCheckCustomLabel2}  HealthCheckCustomLabel3={this.props.HealthCheckCustomLabel3}  HealthCheckCustomLabel4={this.props.HealthCheckCustomLabel4}  HealthCheckCustomButton1={this.props.HealthCheckCustomButton1}
-                     HealthCheckCustomButton2={this.props.HealthCheckCustomButton2}  context={this.props.context}  />
+                     HealthCheckCustomButton2={this.props.HealthCheckCustomButton2}  context={this.props.context} HealthCheckSharepointListName={this.props.HealthCheckSharepointListName} HealthCheckSharepointUrl={this.props.HealthCheckSharepointURL} />
                   </div>
                   <div>
                     <div className={styles["panel-Feedcontrol"]}>
@@ -122,7 +127,11 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
   }
 
   private clickHealthChk(userSelectedData?: any) {
-    var appValue = MockHttpClient.getHealthCheck(userSelectedData); 
+    var AzureUrl = this.props.HealthCheckAzureUrl;
+    var appValue = MockHttpClient.getHealthCheck(AzureUrl, this.state.sessionKey, userSelectedData); 
+    //if(appValue.data.status == "continue" ) {
+      // var appValue = MockHttpClient.getHealthCheck(userSelectedData); 
+    // }
     // .then((res) => res)
     // .catch((err)=>err);
                         // .try{

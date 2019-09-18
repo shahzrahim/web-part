@@ -23,6 +23,9 @@ export interface IHealthCheckWebPartProps {
    HealthCheckCustomLabel4: string;
    HealthCheckCustomButton1: string;
    HealthCheckCustomButton2: string;
+   HealthCheckAzureUrl: string;
+   HealthCheckSharepointURL: string;
+   HealthCheckSharepointListName: string;
    //add color picker
 }
 
@@ -47,9 +50,10 @@ export default class HealthCheckWebPart extends BaseClientSideWebPart<IHealthChe
           HealthCheckCustomLabel4:this.properties.HealthCheckCustomLabel4,
           HealthCheckCustomButton1:this.properties.HealthCheckCustomButton1,
           HealthCheckCustomButton2:this.properties.HealthCheckCustomButton2,
-//        HealthCheckCustomColor: this
-          context: this.context   
-
+          context: this.context,   
+          HealthCheckAzureUrl: this.properties.HealthCheckAzureUrl,
+          HealthCheckSharepointListName: this.properties.HealthCheckSharepointListName,
+          HealthCheckSharepointURL: this.properties.HealthCheckSharepointURL
       }
     );
 
@@ -110,6 +114,20 @@ export default class HealthCheckWebPart extends BaseClientSideWebPart<IHealthChe
                 }) ,
                 PropertyPaneTextField('HealthCheckCustomButton2', {  
                   label: strings.PageCancelBtnFieldLabel  
+                }) ,
+
+                // define Azure URL, sharepoint URL, Sharepoint ListName
+                //property textPaneField1
+                //property textPaneField2
+                //property textPaneField3
+                PropertyPaneTextField('HealthCheckAzureUrl', {  
+                  label: strings.HealthCheckAzureUrl  
+                }), 
+                PropertyPaneTextField('HealthCheckSharepointURL', {  
+                  label: strings.HealthCheckSharepointUrl
+                }), 
+                PropertyPaneTextField('HealthCheckSharepointListName', {  
+                  label: strings.HealthCheckSharepointListName  
                 }) 
 
                 // PropertyFieldColorPicker('color', {

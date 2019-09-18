@@ -12,4 +12,10 @@ export interface IHealthCheckWebProps {
     HealthCheckCustomButton1: string;
     HealthCheckCustomButton2: string;
     context: IWebPartContext;
+    HealthCheckAzureUrl: string;
+    HealthCheckSharepointListName: string;
+    HealthCheckSharepointURL: string;
+
+
+// define Azure URL, sharepoint URL, Sharepoint ListName
   }

@@ -12,6 +12,10 @@ declare interface IHealthCheckWebPartStrings {
   resultMessage: string;
   loadingFeed: string;
   initalFeed: string;
+  HealthCheckAzureUrl: string;
+  HealthCheckSharepointListName:string;
+  HealthCheckSharepointUrl:string;
+
 }
 
 declare module 'HealthCheckWebPartStrings' {

@@ -80,8 +80,10 @@ export default class HealthCheck extends React.Component<IHealthCheckProps,any> 
   
   private getApplicationDDValues(): void
   {    
-        var webURL = "https://atlcts.sharepoint.com/sites/GraingerTeams";
-        var listName = "AppConfigTestList";
+        //Replace webURL with this.props.HealthCheckSharepointURL
+        //Replace listName with this.props.HealthCheckListName
+        var webURL = this.props.HealthCheckSharepointUrl;
+        var listName = this.props.HealthCheckListName;
         const listResultsService: SPListResultsService = new SPListResultsService(this.props, this.currContext);
         var listvalues = [];
         listvalues.push({key:'Application',text:'Application'});
@@ -274,17 +276,18 @@ private _btnHealthChkClicked():void
   // if() {
   //   this.setState({bttnDisable:false});
   // }        this.props.onSaveClick(selectedData);
-  if(currApplnValue !="" && currEnvnValue !=""){
-
-    if (currApplnValue != "Application" || currApplnValue != "Server") {
+  if((currApplnValue !="" && currEnvnValue !="") && (this.state.errorMsg2 == "")){
+    if (this.state.customGroup != "Application" || this.state.customGroup != "Server") {
       this.props.onSaveClick(selectedData);
       this.clearMsg();
-    } else {
-      if(currServerNameValue.length > 0) {
+    } 
+    if(this.state.customGroup == "Application" || this.state.customGroup == "Server") {
+      if(selectData.length === 4) {
         this.props.onSaveClick(selectedData);
         this.clearMsg();
       }
     }
+
   }
     
  }
@@ -293,22 +296,34 @@ private _onApplicationDDLChanged(event)
 {  
   var DDlApplSelectedValue = event.key; 
   this.setState( { customGroup: event.key} ); 
+  console.log(this.state.customGroup,'inside ddl change');
   // console.log('The Application dropdown value is :'+event.key);
 }
 //TxtServerName
 private _handleTextFieldChange(event) {
+  if(this.state.customGroup=='Application' || this.state.customGroup=='Server')
+  {
+    this.setState({
+      errorMsg2: 'Text Field is Mandatory'
+    });
+  }
   this.setState( { serverName: event.target.value} ); 
+  this.setState({errorMsg2: ""});
   //this.state={serverName: event.target.value};
   // console.log('The entered Server name is :'+event.target.value);
   //this.setState({txtServer:event.target.value})
 }
 //DDLEnvironment
 private _onEnvironmentDDLChanged(event) 
-{ 
+{   
   var DDlEnvnSelectedValue = event.key; 
   this.setState( { environment: event.key} );
-  // console.log('The Environment dropdown value is :'+DDlEnvnSelectedValue); 
-  //this.setState({txtServer:event.target.value})
+  if((this.state.customGroup=='Application' || this.state.customGroup=='Server') && this.state.serverName=='')
+  {
+    this.setState({
+      errorMsg2: 'Text Field is Mandatory'
+    });
+  }
 
 }
 //ChkVerbose
@@ -335,3 +350,7 @@ public enableBttn()
 // set state for bttnDisabled = true; - check
 // if all values are selected then bttn can be selected.
 // create enableBttn function, call it in didMount
+
+
+
+//Select an option as a value, 

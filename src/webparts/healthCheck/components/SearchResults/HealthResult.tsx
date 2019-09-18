@@ -107,6 +107,8 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
     }
 
 
+
+
     var listItems = showData.map((server, i) => {
       resultStyles.color = server.Server.Color;
 
