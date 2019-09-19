@@ -75,13 +75,15 @@ export default class MockHttpClient  {
      * Mock get SharePoint list request
 */
 // URL, sessionKey, userSelected Data will be passed
-    public static async getHealthCheck(AzureUrl, sessionKey, userSelectedData?: any): Promise <void> {
+    public static getHealthCheck(AzureUrl, sessionKey, userSelectedData?: any) {
 
         try {
-            const response = await new Promise((resolve, reject) => {
+            const response = new Promise((resolve, reject) => {
                 resolve(data);
             });
             return new Promise((resolve, reject) => {
+                //check if sessionKey matches sessionKey in localStorage
+                //  then return based on truthy
                 return response;
             });
         }

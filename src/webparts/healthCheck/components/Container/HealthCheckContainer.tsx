@@ -112,23 +112,18 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
         
     //     }).catch((err) => err);
     return serviceResults;
-
-    //resultitem=responseJSON.map((object: any, i: number) => {  var app = object[i]["Application"]
-    //listResultsService.getApplicationValue(webURL,listName).then((applicationResults) => 
-    //{
-    //this.setState({ results: applicationResults });
-    //}); 
-    // var listvalues = [];
-    // listvalues.push({key:'Application',text:'Application'});
-    // listvalues.push({key:'Servers',text:'Servers'});      
-    // listvalues.push(resultsData); 
-    // console.log(listvalues);
-    //return FinalDDLValuess
   }
 
   private clickHealthChk(userSelectedData?: any) {
     var AzureUrl = this.props.HealthCheckAzureUrl;
     var appValue = MockHttpClient.getHealthCheck(AzureUrl, this.state.sessionKey, userSelectedData); 
+    // AppValue should return data.response and headers.
+    // we check for headers of sessionKeyRes in getHealthCheck 
+    // and compare it to localStorage.getItem('session-key')
+
+
+
+
     //if(appValue.data.status == "continue" ) {
       // var appValue = MockHttpClient.getHealthCheck(userSelectedData); 
     // }

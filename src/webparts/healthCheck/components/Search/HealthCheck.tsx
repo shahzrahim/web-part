@@ -76,6 +76,7 @@ export default class HealthCheck extends React.Component<IHealthCheckProps,any> 
   {    
    this.getApplicationDDValues(); 
    console.log(this.state.ddResults, 'this is DDresults');  
+   
   } 
   
   private getApplicationDDValues(): void
@@ -83,7 +84,7 @@ export default class HealthCheck extends React.Component<IHealthCheckProps,any> 
         //Replace webURL with this.props.HealthCheckSharepointURL
         //Replace listName with this.props.HealthCheckListName
         var webURL = this.props.HealthCheckSharepointUrl;
-        var listName = this.props.HealthCheckListName;
+        var listName = this.props.HealthCheckSharepointListName;
         const listResultsService: SPListResultsService = new SPListResultsService(this.props, this.currContext);
         var listvalues = [];
         listvalues.push({key:'Application',text:'Application'});
@@ -234,7 +235,7 @@ private _btnHealthChkClicked():void
   (this.state.customGroup=="") ? this.setState({errorMsg1: 'Selection is Mandatory'}):this.setState({errorMsg1: ''});
 
 
-  if(currApplnValue ==='Application' || currApplnValue ==='Server') {
+  if(this.state.customGroup ==='Application' || this.state.customGroup ==='Server') {
     this.setState({
       errorMsg2: 'Text Field is Mandatory'
     });
@@ -296,6 +297,18 @@ private _onApplicationDDLChanged(event)
 {  
   var DDlApplSelectedValue = event.key; 
   this.setState( { customGroup: event.key} ); 
+  if(this.state.customGroup!=='Application' || this.state.customGroup!=='Server')
+  {
+    this.setState({
+      errorMsg2: ''
+    });
+  }
+  if(this.state.customGroup!=='')
+  {
+    this.setState({
+      errorMsg1: ''
+    });
+  }
   console.log(this.state.customGroup,'inside ddl change');
   // console.log('The Application dropdown value is :'+event.key);
 }
@@ -322,6 +335,12 @@ private _onEnvironmentDDLChanged(event)
   {
     this.setState({
       errorMsg2: 'Text Field is Mandatory'
+    });
+  }
+  if(this.state.environment !=='')
+  {
+    this.setState({
+      errorMsg3: ''
     });
   }
 

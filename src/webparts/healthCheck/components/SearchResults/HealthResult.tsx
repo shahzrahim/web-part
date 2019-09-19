@@ -44,6 +44,8 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
     this.setState({ groupselectedValues: this.props.Request, isLoading: false });
 
   }
+
+
   //   componentWillReceiveProps is 
   public componentWillReceiveProps(nextProps: IHealthResultProps): void {
     this.setState({ groupselectedValues: nextProps.Request });
@@ -87,6 +89,7 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
 
   // the function that is called to map response and check for errors
   private showResults(): any {
+    // update below variables with response from API using this.props.Request
     let status = this.state.resultData.Status;
     let showData = this.state.resultData.Servers;
     var chkP: any;
@@ -97,17 +100,9 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
       backgroundColor: "#ecebeb",
       listStyleType: "none",
       fontWeight: 'bold' as 'bold',
+      height: 315,
+      overflow: "auto"
     };
-
-    if (!showData || status === "error") {
-      return (<div>
-        There was an error when attempting to collect Health Check Data.<br />
-        Please try again later.
-      </div>);
-    }
-
-
-
 
     var listItems = showData.map((server, i) => {
       resultStyles.color = server.Server.Color;
@@ -131,20 +126,52 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
       );
 
     });
-
-    return (<div style={ulStyles}>
+    let resultList = (<div style={ulStyles}>
 
       <ul className={styles["dataList"]} >
         {listItems}
       </ul>
     </div>
     );
+
+    //Handling of JSON statuses
+    if (!showData || status === "error" || status === "failure") {
+      return (<div>
+        There was an error when attempting to collect Health Check Data.<br />
+        Please try again later.
+      </div>);
+    }
+
+    if (status === "finished") {
+      return resultList;
+    }
+
+    if (status === 'continue') {
+      return (
+      <div>
+
+        <div style={ulStyles}>
+
+          <ul className={styles["dataList"] } >
+            {listItems}
+          </ul>
+        </div>
+        <div className={styles["spinner.large"]}>
+          <Spinner/>
+        </div>
+
+      </div>
+      );
+    }
+
+
+
   }
 
 
   public render(): React.ReactElement<IHealthResultProps> {
     //const resultStyle = this.props.HealthResult ? { display: 'block' } : { display: 'none' };
-    const resultStyle = { display: 'block', padding: '0 20px' };
+    const resultStyle = { display: 'block', padding: '0 20px'};
 
     let check = (this.state.verbose) ? "On" : "Off";
     var loadingBlock =
@@ -165,7 +192,6 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
     if (this.state.count === 0) {
       resultBlock = (<div>
         <div className={styles["result-message"]}>Please complete form to check for Health Status</div>
-        {/* // <div>{strings.initalFeed}</div> */}
       </div>);
     }
 
@@ -183,25 +209,13 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
       </div>
       );
     }
-    // if(this.state.count !== 0 && !this.state.isLoading) {
-    //     return (<div>
-    //       {headerBlock} 
-    //       {/* {resultBlock} */}
-    //     </div>);
-    // }
-
-
-
-
 
     return (
       <div className="results-contain">
         <div className={styles["results-contain"]}>
           <div className={styles["accountstatus"]}>
-            <div className={styles["claim-account"]} style={resultStyle}>
+            <div className={styles["claim-account"]} ref='myscroll' style={resultStyle}>
               <div>
-                {/* <div className={styles["result-message"]}>{strings.initalFeed}</div>
-                      <div>{strings.initalFeed}</div> */}
                 {resultBlock}
               </div>
             </div>
