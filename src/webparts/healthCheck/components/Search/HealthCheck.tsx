@@ -199,6 +199,7 @@ export default class HealthCheck extends React.Component<IHealthCheckProps,any> 
 //btnCancel
 private _btnCancelClicked(): void 
 {  
+  this.props.onCancelClick();
   console.log('should clear the form');
   this.setState({
     customGroup:"",

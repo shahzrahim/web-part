@@ -51,6 +51,8 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
     this.setState({ groupselectedValues: nextProps.Request });
     this.updateInputs(nextProps);
 
+
+
     if (this.props.HealthResult === true) {
       this.setState({ groupselectedValues: nextProps.Request, isLoading: true });
     }
@@ -58,6 +60,9 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
     this.raiseCount();
     this.showLoader();
 
+    if(nextProps.count === 0) { 
+      this.setState({count: 0});
+    }
 
   }
 

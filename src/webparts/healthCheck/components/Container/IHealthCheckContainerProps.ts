@@ -25,6 +25,7 @@ export interface IHealthCheckContainerState {
   serverType: string;
   environment: string;
   sessionKey: any;
+  count: any;
   
   //  isSpinnerHidden: boolean;
 }

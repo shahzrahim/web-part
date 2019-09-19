@@ -6,5 +6,6 @@ export interface IHealthResultProps {  // description: string;
  customGroup:string;
  serverType:string;
  environment:string;
+ count: any;
  }
  
