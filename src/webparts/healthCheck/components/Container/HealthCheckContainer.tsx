@@ -10,14 +10,13 @@ import {
 import * as strings from 'HealthCheckWebPartStrings';
 import MockHttpClient from '../Search/MockHttpClient';
 import { SPHealthCheckResultsService } from './SPHealthCheckResultsService';
-import ls from 'local-storage';
+
 
 
 
 
 export default class HealthCheckContainer extends React.Component<IHealthCheckContainerProps, IHealthCheckContainerState> {
-  private _sessionStorageKey: string = "Deltanet_GroupWPFeed";
-  private custStoragekey_Selectedgroupnames = "_SelGroupNamesWPFeed";
+
   private currContext: IWebPartContext;
   private _emailID: string;
 
