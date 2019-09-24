@@ -20,29 +20,8 @@ import { SPListResultsService } from './SPListResultsService';
 import { IWebPartContext } from '@microsoft/sp-webpart-base';
 import { string } from 'prop-types';
 import DropdownArea from './DropdownArea';
-const ApplicationOptions: IDropdownOption[] = [
-  { key: 'Select an option', text: 'Select an option' },
-  { key: 'Application', text: 'Application' },  
-  { key: 'Server', text: 'Server' },
-  { key: 'Focus', text: 'Focus' },
-  { key: 'Focus', text: 'Focus' },
-  { key: 'Focus', text: 'Focus' },
-];
-const EnvironmentOptions: IDropdownOption[] = [
-  { key: 'Prd', text: 'PRD' },
-  { key: 'Qa', text: 'QA' },
-  { key: 'Dev', text: 'DEV' },
-  { key: 'All', text: 'ALL' }
-];
-const dropdownStyles: Partial<IDropdownStyles> = {
-  dropdown: { width: 384 }
-};
-const textFieldStyles: Partial<ITextFieldStyles> = {
-  field: { width: 384 }
-};
 
-const stackTokens: IStackTokens = { childrenGap: 20 };
-/*End-Custom Controls*/
+
 export default class HealthCheck extends React.Component<IHealthCheckProps, any> {
   private currContext: IWebPartContext;
   private serviceResults: any;
@@ -98,14 +77,14 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
     // })
     // .catch((err) => err);
     // // this.setState({ddResults: serviceResults });
-    console.log(this.serviceResults, 'this is the service results');
+
 
   }
 
   //DDLApplication
   private _onApplicationDDLChanged(event?: any) {
     var DDlApplSelectedValue = event.key;
-    console.log(event, 'line 107, healthCheck');
+
 
     this.setState({ customGroup: event.key });
     if (this.state.customGroup !== 'Application' || this.state.customGroup !== 'Server') {
@@ -118,7 +97,7 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
         errorMsg1: ''
       });
     }
-    console.log(this.state.customGroup, 'inside ddl change');
+
 
     // console.log('The Application dropdown value is :'+event.key);
   }
@@ -154,14 +133,8 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
   //ChkVerbose
   public _onChkVerboseChange(e) {
     var isChecked = e.target.checked;
-    // this.setState( { verbose: this._flip(isChecked)} );
-    console.log(this.state.verbose);
-    this.setState({ verbose: isChecked });
-    // console.log('The Verbose checkbox value is :'+isChecked);
-    // console.log(this.state.results);
 
-    //this.setState({chkVerbosevalue :e.target.checked})
-    // do whatever you want with isChecked value
+    this.setState({ verbose: isChecked });
   }
   public enableBttn() {
     this.setState({ bttnDisable: !this.state.bttnDisable });
@@ -227,7 +200,6 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
   //btnCancel
   private _btnCancelClicked(): void {
     this.props.onCancelClick();
-    console.log('should clear the form');
     this.setState({
       customGroup: "",
       serverName: "",
@@ -271,16 +243,6 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
     (this.state.environment == "") ? this.setState({ errorMsg3: 'Selection is Mandatory' }) : this.setState({ errorMsg3: '' });
 
 
-    // if(this.state.environment==""){
-    //   {
-    //     this.setState({
-    //       errorMsg3: 'Environment is Mandatory'
-    //     });
-    //   }
-    // }
-
-
-
     if (this.state.customGroup !== "" || this.state.customGroup !== null)
       selectData.push(this.state.customGroup);
     if (this.state.serverName !== "" || this.state.serverName !== null)
@@ -291,22 +253,9 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
       selectData.push(this.state.verbose);
 
 
-    // else
-    // {
-    //   this.setState({ inputValue: ''});
-    // }
-
-    console.log(currApplnValue, 'this is server type value');
-    console.log(selectData, 'this is selected Data at 1');
-
-
     var selectedData = [currApplnValue, currServerNameValue, currEnvnValue, currVerboseValue];
-    console.log(selectedData, 'this is selected Data at 1');
 
-    // currApplnValue !=="" || currEnvnValue !=="") && this.state.errorMsg2 == ""
-    // if() {
-    //   this.setState({bttnDisable:false});
-    // }        this.props.onSaveClick(selectedData);
+
     if ((currApplnValue != "" && currEnvnValue != "") && (this.state.errorMsg2 == "")) {
       if (this.state.customGroup != "Application" || this.state.customGroup != "Server") {
         this.props.onSaveClick(selectedData);
@@ -357,35 +306,3 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
 
 
 }
-
-// create a clear form function -check
-// set state for bttnDisabled = true; - check
-// if all values are selected then bttn can be selected.
-// create enableBttn function, call it in didMount
-
-
-
-//Select an option as a value, 
-
-{/* <Label className={styles.custLabel}>{escape(this.props.HealthCheckCustomLabel1)}</Label>
-<Dropdown placeholder="Select an option"
-  options={ApplicationOptions}
-  styles={dropdownStyles}
-  onChanged={this._onApplicationDDLChanged.bind(this)} />
-<p style={{ color: "red" }}>{this.state.errorMsg1}</p>
-
-
-<Label className={styles.custLabel}>{escape(this.props.HealthCheckCustomLabel2)}</Label>
-<TextField onChange={this._handleTextFieldChange}
-  //  placeholder={this.state.inputValue}
-  value={this.state.serverName}
-  styles={textFieldStyles} />
-<p style={{ color: "red" }}>{this.state.errorMsg2}</p>
-
-<Label className={styles.custLabel}>{escape(this.props.HealthCheckCustomLabel3)}</Label>
-<Dropdown placeholder="Select an option"
-  options={EnvironmentOptions}
-  styles={dropdownStyles}
-  onChanged={this._onEnvironmentDDLChanged.bind(this)} />
-<div className={styles["hideDiv"]}>
-  <p style={{ color: "red" }}>{this.state.errorMsg3}</p> */}

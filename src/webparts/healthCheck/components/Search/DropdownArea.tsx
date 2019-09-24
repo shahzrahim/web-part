@@ -55,18 +55,7 @@ export default class DropdownArea extends React.Component<DropdownProps, any> {
   constructor(props: DropdownProps, context?: IWebPartContext) {
     super(props, context);
     this.currContext = props.context;
-    this.state = {
-      errorMsg1: "",
-      errorMsg2: "",
-      errorMsg3: "",
-      ddResults: [],
-      results: [],
-      inputValue: "",
-      customGroup: "",
-      serverName: "",
-      environment: "",
-      verbose: false,
-    },
+    this.state = {},
     this._onApplicationDDLChanged = this._onApplicationDDLChanged.bind(this);
     this._onEnvironmentDDLChanged = this._onEnvironmentDDLChanged.bind(this);
     this._handleTextFieldChange = this._handleTextFieldChange.bind(this);
@@ -116,45 +105,19 @@ export default class DropdownArea extends React.Component<DropdownProps, any> {
   }
     //DDLApplication
     private _onApplicationDDLChanged(event?: any) {
-      var DDlApplSelectedValue = event.key;
-      console.log(event, 'this is the event');
-      this.setState({ customGroup: event.key });
-
-      if (this.state.customGroup !== 'Application' || this.state.customGroup !== 'Server') {
-        this.setState({
-          errorMsg2: ''
-        });
-      }
-      if (this.state.customGroup !== '') {
-        this.setState({
-          errorMsg1: ''
-        });
-      }
-
       return this.props._onApplicationDDLChanged(event);
-
-
     }
     //TxtServerName
     private _handleTextFieldChange(event? :any) {
-      console.log(event, 'this is event in dropdown');
-      
-      console.log('The Text dropdown value is :'+event.target.value);
-
       return this.props._handleTextFieldChange(event);
-
     }
     //DDLEnvironment
     private _onEnvironmentDDLChanged(event? :any) {
-      console.log('The environment dropdown value is :'+event.key);
-
       return this.props._onEnvironmentDDLChanged(event);
-
     }
     //ChkVerbose
-    public _onChkVerboseChange(event) {
+    public _onChkVerboseChange(event? :any) {
       return this.props._onChkVerboseChange(event);
-
     }
 } 
 
