@@ -4,6 +4,7 @@ import { IHealthResultProps } from './IHealthResultProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 import * as strings from 'HealthCheckWebPartStrings';
 import { Spinner } from "office-ui-fabric-react";
+import { any } from 'prop-types';
 var data: any = require('../../data/data.json');
 var resultStyles = {
   color: "Red",
@@ -60,8 +61,8 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
     this.raiseCount();
     this.showLoader();
 
-    if(nextProps.count === 0) { 
-      this.setState({count: 0});
+    if (nextProps.count === 0) {
+      this.setState({ count: 0 });
     }
 
   }
@@ -114,24 +115,24 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
 
       //if verbose is checked, will iterate through Chks and display
       if (this.state.verbose) {
-        chkP = server.Server.Chk.P;
+        chkP = server.Server.Chk.P; 
         chkF = server.Server.Chk.F;
         chkE = server.Server.Chk.E;
-        checkBlock = (<div>(Chks: P:{chkP} F:{chkF} E:{chkE} )</div>);
+        checkBlock = (<div>(Chks: P:{chkP} &nbsp; F:{chkF} &nbsp; E:{chkE} )</div>);
       }
 
-      return (
-        <div key='server[i]' style={resultStyles}>
-          {server.Server.DateTime} 
-          {server.Server.Name} 
-          (App:{this.state.resultData.AppName}) 
-          {checkBlock} 
-          {/* <div >{server.Server.Status} </div>  */}
-          <br/>
-        </div>
-      );
+
+        return (
+          <div key='server[i]' style={resultStyles}>
+            {server.Server.DateTime} &nbsp;
+            {server.Server.Name} &nbsp;
+            (App:{this.state.resultData.AppName}) &nbsp;
+            {checkBlock}
+          </div>
+        );
 
     });
+
     let resultList = (<div style={ulStyles}>
 
       <ul className={styles["dataList"]} >
@@ -154,19 +155,19 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
 
     if (status === 'continue') {
       return (
-      <div>
+        <div>
 
-        <div style={ulStyles}>
+          <div style={ulStyles}>
 
-          <ul className={styles["dataList"] } >
-            {listItems}
-          </ul>
+            <ul className={styles["dataList"]} >
+              {listItems}
+            </ul>
+          </div>
+          <div className={styles["spinner.large"]}>
+            <Spinner />
+          </div>
+
         </div>
-        <div className={styles["spinner.large"]}>
-          <Spinner/>
-        </div>
-
-      </div>
       );
     }
 
@@ -177,8 +178,8 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
 
   public render(): React.ReactElement<IHealthResultProps> {
     //const resultStyle = this.props.HealthResult ? { display: 'block' } : { display: 'none' };
-    const resultStyle = { display: 'block', padding: '0 20px'};
-
+    const resultStyle = { display: 'block', padding: '0 20px' };
+    var headerBlock;
     let check = (this.state.verbose) ? "On" : "Off";
     var loadingBlock =
       // tslint:disable-next-line: no-unused-expression
@@ -187,12 +188,21 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
           <Spinner label={strings.loadingFeed} />
         </div>
       </div>);
-    var headerBlock = (<div className="headerBlock">
+    if (this.state.serverType !== ""){
+      headerBlock = (<div className="headerBlock">
       <p>
         Running Health Check <br />
-        Server/Group: {this.state.customGroup} Type: {this.state.serverType} ENV: {this.state.environment} Verbose Mode:{check}
+        Server/Group: {this.state.customGroup}  &nbsp; Type: {this.state.serverType}  &nbsp; ENV: {this.state.environment} &nbsp; Verbose Mode:{check}
       </p>
     </div>);
+    } else {
+      headerBlock = (<div className="headerBlock">
+      <p>
+        Running Health Check <br />
+        Server/Group: {this.state.customGroup} &nbsp; ENV: {this.state.environment}  &nbsp; Verbose Mode:{check}
+      </p>
+    </div>);
+    }
     var resultBlock = this.showResults();
 
     if (this.state.count === 0) {
