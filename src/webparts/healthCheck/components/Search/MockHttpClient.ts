@@ -76,7 +76,23 @@ export default class MockHttpClient  {
 */
 // URL, sessionKey, userSelected Data will be passed
     public static getHealthCheck(AzureUrl, sessionKey, userSelectedData?: any) {
+        const requestHeaders: Headers = new Headers();      
+        requestHeaders.append("Access-Control-Max-Age", "86400");
+        requestHeaders.append("Access-Control-Allow-Credentials" , "true");
+        requestHeaders.append("Access-Control-Allow-Methods","GET");
+        requestHeaders.append("Access-Control-Allow-Origin","https://atlcts.sharepoint.com");
+        requestHeaders.append("Appname","test");
+        requestHeaders.append("Status","finish");
+        requestHeaders.append("servername","test");
+        requestHeaders.append("verbose","on");
 
+        requestHeaders.append("Session-Key", sessionKey);                           
+         const httpClientOptions: IHttpClientOptions = {           
+             headers: requestHeaders
+           };
+        //  return this.context.httpClient.get(AzureUrl, SPHttpClient.configurations.v1,httpClientOptions).then(this.processResponse);
+
+        
         try {
             const response = new Promise((resolve, reject) => {
                 resolve(data);

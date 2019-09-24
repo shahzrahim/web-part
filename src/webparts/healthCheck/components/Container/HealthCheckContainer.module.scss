@@ -1,15 +1,18 @@
 @import '~office-ui-fabric-react/dist/sass/References.scss';
 .healthCheckContainer
 {
+  margin-left: 50px;
   width : 600px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1),0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
 
   .container {
-    padding: 0 10px 0 10px;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 20px 10px 0 10px;
     border-bottom: solid .1px #d4d4d4;
     margin-bottom: 5px;
     width : 600px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1),0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
   }
 
   .panel-heading{
@@ -20,8 +23,7 @@
     border-bottom: 5px solid #63665A;
     margin-bottom: 0;
     line-height: .8;
-    padding: 25px 50px;
-    text-align: center !important;
+    padding: 15px 30px;
   }
 
   .panel-title
@@ -34,6 +36,7 @@
     text-transform: uppercase !important;
     margin: auto !important;
     text-align: left !important;
+    padding-left: -30px !important;
   }
 
   .panel-Feedcontrol
@@ -43,7 +46,7 @@
     border-top: 5px solid #63665A;
     width: 601px;
     padding-top: 5px;
-    overflow:'scroll';
+    overflow:auto;
   }
 
   
@@ -114,7 +117,7 @@
   .panelFeedControl {
     padding-top:30px;
     margin-right: -20px;
-    overflow:'scroll';
+    overflow: auto;
   }
     
 }

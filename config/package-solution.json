@@ -1,14 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "health-check-solution-client-side-solution",
-    "id": "dc2972a9-e142-4cc2-ac1d-0509ceda3149",
-    "version": "6.0.0.0",
+    "name": "Grainger-Health-Check-V2",
+    "id": "ae706c11-da85-43d2-b60e-9f2c8e92c2ed",
+    "version": "3.0.0.0",
     "includeClientSideAssets": true,
-    "skipFeatureDeployment": true,
-    "isDomainIsolated": false
+    "skipFeatureDeployment": true
   },
   "paths": {
-    "zippedPackage": "solution/health-check-solution.sppkg"
+    "zippedPackage": "Grainger-Health-Check-V2.sppkg"
   }
 }

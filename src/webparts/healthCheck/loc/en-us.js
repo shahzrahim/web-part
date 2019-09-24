@@ -15,7 +15,7 @@ define([], function() {
     "initialFeed" : "Please complete form to check for Health Status",
     "loadingFeed" : "Please wait while we are loading",
     "HealthCheckAzureUrl" : "Please enter the Azure Url",
-    "HealthCheckSharepointListName": "Please enter the Sharepoint List Name",
+    "HealthCheckSharepointListName": "AppConfigTestList",
     "HealthCheckSharepointUrl": "Please enter the Sharepoint URL"
   }
 });

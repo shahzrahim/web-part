@@ -121,12 +121,13 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
       }
 
       return (
-        <div key='server[i]'>
-          {server.Server.DateTime}  <br />
-          {server.Server.Name} <br />
-          (App:{this.state.resultData.AppName}) <br />
-          {checkBlock}
-          <div style={resultStyles}>{server.Server.Status} </div> <br />
+        <div key='server[i]' style={resultStyles}>
+          {server.Server.DateTime} 
+          {server.Server.Name} 
+          (App:{this.state.resultData.AppName}) 
+          {checkBlock} 
+          {/* <div >{server.Server.Status} </div>  */}
+          <br/>
         </div>
       );
 

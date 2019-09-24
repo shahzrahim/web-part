@@ -39,7 +39,7 @@ export class SPListResultsService implements ISPListResultsService {
     }
     public getApplicationValue(weburl: string,listname: string): any
     {
-      var queryUrl=weburl +"/_api/web/lists/getByTitle('"+listname+"')/items?$select=Application";
+      var queryUrl="_api/web/lists/getByTitle('"+"AppConfigTestList"+"')/items?$select=Application";
       var FinalDDLValues=[];
       
     //   this.context.httpClient.get(queryUrl, HttpClient.configurations.v1)
