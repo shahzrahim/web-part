@@ -18,7 +18,7 @@ import { TextField, MaskedTextField, ITextFieldStyles } from 'office-ui-fabric-r
 import { css, classNamesFunction, DefaultButton, IButtonProps, IStyle, PrimaryButton, fontFace, loadTheme } from 'office-ui-fabric-react';
 import { SPListResultsService } from './SPListResultsService';
 import { IWebPartContext } from '@microsoft/sp-webpart-base';
-import { string } from 'prop-types';
+import { string, any } from 'prop-types';
 import DropdownArea from './DropdownArea';
 
 
@@ -55,31 +55,51 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
    * Function called when the component did mount
    */
   public componentDidMount(): void {
-    this.getApplicationDDValues();
+    // this.getApplicationDDValues();
     this.setState({ showDropDownArea: true });
   }
 
-  private getApplicationDDValues(): void {
-    //Replace webURL with this.props.HealthCheckSharepointURL
-    //Replace listName with this.props.HealthCheckListName
-    var webURL = this.props.HealthCheckSharepointUrl;
-    var listName = this.props.HealthCheckSharepointListName;
-    const listResultsService: SPListResultsService = new SPListResultsService(this.props, this.currContext);
-    var listvalues = [];
-    listvalues.push({ key: 'Application', text: 'Application' });
-    listvalues.push({ key: 'Servers', text: 'Servers' });
-    this.setState({ ddResults: listvalues });
-    this.serviceResults = listResultsService.getApplicationValue(webURL, listName);
-    // .then((responseJSON: any) =>  
-    // { 
-    //   console.log(responseJSON, 'this is response from Health Check call');
-    //   return responseJSON;
-    // })
-    // .catch((err) => err);
-    // // this.setState({ddResults: serviceResults });
+  // private getApplicationDDValues(): void {
+  //   //Replace webURL with this.props.HealthCheckSharepointURL
+  //   //Replace listName with this.props.HealthCheckListName
+  //   // https://atlcts.sharepoint.com/sites/GraingerTeams — WebURL
 
 
-  }
+  //   var webURL = 'https://atlcts.sharepoint.com/sites/GraingerTeams';
+  //   var listName = this.props.HealthCheckSharepointListName;
+  //   const listResultsService: SPListResultsService = new SPListResultsService(this.props, this.currContext);
+  //   this.serviceResults = listResultsService.getApplicationValue(webURL, listName);
+  //   // ;
+  //   // this.setState({ddResults: this.serviceResults});
+  //   // console.log(this.state.ddResults, 'in health check');
+    
+  //   // this.serviceResults.
+  //   this.serviceResults.then((responseJSON: any) =>  { 
+  //     if (responseJSON != null) {
+
+  //       let applnValues = [];
+  //       var defaultArry = [];
+  //       defaultArry.push({ key: 'Application', text: 'Application' });
+  //       defaultArry.push({ key: 'Servers', text: 'Servers' });
+  //       //Code to get the column values from the sharepoint list with duplicate values to array.
+  //       let itemsvalue: any[] = responseJSON.value;
+  //       itemsvalue.forEach(c => {
+  //           applnValues.push({
+  //               key: c.Application,
+  //               text: c.Application
+  //           });
+  //       });
+  //       console.log(itemsvalue, 'this is responseJSON value');
+
+  //       let FinalDDLValues = defaultArry.concat(applnValues);
+
+  //       // return FinalDDLValues;
+  //       this.setState({ddResults: FinalDDLValues});
+  //       console.log();
+        
+  //     } 
+  //   });
+  // }
 
   //DDLApplication
   private _onApplicationDDLChanged(event?: any) {
@@ -153,6 +173,7 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
               <div >
                 {(this.state.showDropDownArea !== true) ? ""
                   : <DropdownArea
+                    
                     HealthCheckCustomLabel1={this.props.HealthCheckCustomLabel1}
                     HealthCheckCustomLabel2={this.props.HealthCheckCustomLabel2}
                     HealthCheckCustomLabel3={this.props.HealthCheckCustomLabel3}

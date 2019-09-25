@@ -111,8 +111,13 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
   private getHeathCheckList(requestValue) {
     const listResultsService: SPHealthCheckResultsService = new SPHealthCheckResultsService(this.props, this.currContext);
     var listvalues = [];
-    var serviceResults = listResultsService.getHealthCheckList(requestValue);
+    var serviceResults = listResultsService.getHealthCheckList(requestValue, );
     console.log(serviceResults, 'this is service results');
+
+    // serviceResults.then
+    //bind finish scenario
+    //continue scenario, display result and call service results again with the expectation of finish status. -
+
 
     //     .then((responseJSON: any) =>  
     //     { 

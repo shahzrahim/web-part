@@ -17,7 +17,7 @@ export interface ISPListResultsService {
      * Gets the feed from a Instagram
      */
 
-    getApplicationValue(webUrl: string, listName : string);
+    getApplicationValue(webUrl: string, listName: string);
 
 }
 
@@ -27,64 +27,32 @@ export interface ISPListResultsService {
  */
 export class SPListResultsService implements ISPListResultsService {
     private context: IWebPartContext;
-    private props: IHealthCheckProps;   
 
     // /**
     //  * @function
     //  * Service constructor
     //  */
-    constructor(_props: IHealthCheckProps, pageContext: IWebPartContext) {
-        this.props = _props;
+    constructor(pageContext: IWebPartContext) {
         this.context = pageContext;
     }
-    public getApplicationValue(weburl: string,listname: string): any
-    {
-      var queryUrl="_api/web/lists/getByTitle('"+"AppConfigTestList"+"')/items?$select=Application";
-      var FinalDDLValues=[];
-      
-    //   this.context.httpClient.get(queryUrl, HttpClient.configurations.v1)
-    //   .then((response: HttpClientResponse) => {
-    //       return response.json();
-    //   });
-        return this.context.spHttpClient.get(queryUrl, SPHttpClient.configurations.v1)       
-      .then((response: SPHttpClientResponse) => 
-        {  
-          if (response.ok) 
-          {  
-              response.json().then((responseJSON) => 
-              {                 
-                 if (responseJSON!=null)
-                    {      
+    public getApplicationValue(weburl: string, listname: string): any {
+        // _api/web/lists/getByTitle('AppConfigTestList')/items?$select=Application
+        var queryUrl = "/_api/web/lists/getByTitle('AppConfigTestList')/items?$select=Application";
+        var FinalDDLValues = [];
 
-                        let applnValues=[];
-                        var defaultArry=[];    
-                        defaultArry.push({key:'Application',text:'Application'});
-                        defaultArry.push({key:'Servers',text:'Servers'});                                       
-                        //Code to get the column values from the sharepoint list with duplicate values to array.
-                        let itemsvalue:any[] = responseJSON.value;                
-                        itemsvalue.forEach(c => {
-                            applnValues.push({
-                            key: c.Application,
-                            text: c.Application
-                            });
-                        });                     
-                        console.log(itemsvalue,'this is responseJSON value');
-                        
-                        console.log(applnValues,'this is appInValues');
-                        FinalDDLValues.push(applnValues); 
-                        let resultObj = {
-                            'data' : applnValues
-                        };    
-                        console.log(resultObj, 'this is resultOBJ');
-                                       
-                    return applnValues; 
-                    
+        //   this.context.httpClient.get(queryUrl, HttpClient.configurations.v1)
+        //   .then((response: HttpClientResponse) => {
+        //       return response.json();
+        //   });
+        // this.context.httpClient.get(weburl + queryUrl,
+        // SPHttpClientConfigurations.v1)
+        //   .then((response: Response): Promise<{ value: IListItem[] }> => {
+        //     debugger;
+        //     return response.json();
+        //   });
+        return this.context.spHttpClient.get(weburl + queryUrl, SPHttpClient.configurations.v1).then((response: SPHttpClientResponse) => {
+            return response.json();
+        });
 
-                    }
-            });
-        }
-
-      });
-    //   .catch((err)=> console.log(err));
     }
 }

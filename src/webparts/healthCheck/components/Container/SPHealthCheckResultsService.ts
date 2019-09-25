@@ -33,8 +33,9 @@ export class SPHealthCheckResultsService implements ISPListResultsService {
         this.props = _props;
         this.context = pageContext;
     }
-  
-    public getHealthCheckList(userSelectedData?: any): any {
+    
+    //send sessionKey and status
+    public getHealthCheckList(userSelectedData?: any, ): any {
         {
             var queryUrl="https://graingerhealthcheck.azurewebsites.net/api/Grainger/response";
             const requestHeaders: Headers = new Headers();       
@@ -42,8 +43,10 @@ export class SPHealthCheckResultsService implements ISPListResultsService {
             requestHeaders.append("Access-Control-Allow-Credentials" , "true");
             requestHeaders.append("Access-Control-Allow-Methods","GET");
             requestHeaders.append("Access-Control-Allow-Origin","https://atlcts.sharepoint.com");
-            requestHeaders.append("status", "finish");      
-            requestHeaders.append("AppName", "test"); 
+            requestHeaders.append("status", "continue ");      
+            requestHeaders.append("AppName", userSelectedData.AppName); 
+            requestHeaders.append("ServerName", userSelectedData.ServerName); 
+            requestHeaders.append("Verbose", userSelectedData.Verbose); 
             requestHeaders.append("Content-Type", "application/json");      
             requestHeaders.append("User-Input", userSelectedData);      
 

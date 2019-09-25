@@ -149,11 +149,11 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
       </div>);
     }
 
-    if (status === "finished") {
+    if (status.toLowerCase() === "finish") {
       return resultList;
     }
 
-    if (status === 'continue') {
+    if (status.toLowerCase() === 'continue') {
       return (
         <div>
 
