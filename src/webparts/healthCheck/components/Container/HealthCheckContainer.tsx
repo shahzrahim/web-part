@@ -22,7 +22,8 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
   private _emailID: string;
 
   constructor(props: IHealthCheckContainerProps, context?: IWebPartContext) {
-    super(props);
+    super(props);    
+    this.currContext = props.context;
     this.state = {
       checkResult: false, searchValue: [], responseValue: [], requestValue: [],
       verbose: null,
@@ -31,18 +32,9 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
       environment: "",
       sessionKey: String(Math.floor(Math.random() * 10)),
       count: 0,
+      status: "Finish",
     };
-    //this.currContext = props.context;
-    // this.state = {
-    //   accountClaimed: true,
-    //   searchValue: [],
-    //   showContent: true,
-    //   showSearchGrp: false,
-    //   divisionMatch: false,
-    //   showFeed: false,
-    //   claimUrl: "",
-    //   userExists: true
-    // };
+
     this.clickHealthChk = this.clickHealthChk.bind(this);
     this.clickCancelbttn = this.clickCancelbttn.bind(this);
     this.getHeathCheckList = this.getHeathCheckList.bind(this);
@@ -109,50 +101,53 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
     }
   }
   private getHeathCheckList(requestValue) {
-    const listResultsService: SPHealthCheckResultsService = new SPHealthCheckResultsService(this.props, this.currContext);
-    var listvalues = [];
-    var serviceResults = listResultsService.getHealthCheckList(requestValue, );
-    console.log(serviceResults, 'this is service results');
+  //   const listResultsService: SPHealthCheckResultsService = new SPHealthCheckResultsService(this.currContext);
+  //   var listvalues = [];
+  //   var serviceResults = listResultsService.getHealthCheckList(requestValue, this.state.sessionKey, this.state.status);
+  //   console.log(serviceResults, 'this is service results');
 
+  //   // serviceResults.then
+  //   //bind finish scenario
+  //   //continue scenario, display result and call service results again with the expectation of finish status. -
+
+
+  //   //     .then((responseJSON: any) =>  
+  //   //     { 
+  //   //       console.log(responseJSON);
+
+  //   //       this.setState({responseValue: listvalues});
+
+  //   //     }).catch((err) => err);
+  //   return serviceResults;
+  }
+
+  private clickHealthChk(userSelectedData?: any) {
+    // var AzureUrl = this.props.HealthCheckAzureUrl;
+    // var appValue = MockHttpClient.getHealthCheck(AzureUrl, this.state.sessionKey, userSelectedData);
+    // AppValue should return data.response and headers.
+    // we check for headers of sessionKeyRes in getHealthCheck 
+    // and compare it to localStorage.getItem('session-key')
+    let data: any;
+    const listResultsService: SPHealthCheckResultsService = new SPHealthCheckResultsService(this.currContext);
+    var serviceResults = listResultsService.getHealthCheckList(userSelectedData, this.state.sessionKey, this.state.status);
+    serviceResults.then((responseJSON: any) =>  { 
+      if (responseJSON != null) {
+
+        for(let key in responseJSON.Data) {
+          console.log(responseJSON.Data[key].Status, 'this is the status from returned JSON');
+          data = responseJSON.Data[key];
+          this.setState({status:responseJSON.Data[key].Status});
+        }
+        console.log(this.state.status, 'this is status value');
+        this.setState({responseValue: data});
+      } 
+    }).catch((err: any) => console.log(err));
     // serviceResults.then
     //bind finish scenario
     //continue scenario, display result and call service results again with the expectation of finish status. -
 
+    var responseValue = serviceResults;
 
-    //     .then((responseJSON: any) =>  
-    //     { 
-    //       console.log(responseJSON);
-
-    //       this.setState({responseValue: listvalues});
-
-    //     }).catch((err) => err);
-    return serviceResults;
-  }
-
-  private clickHealthChk(userSelectedData?: any) {
-    var AzureUrl = this.props.HealthCheckAzureUrl;
-    var appValue = MockHttpClient.getHealthCheck(AzureUrl, this.state.sessionKey, userSelectedData);
-    // AppValue should return data.response and headers.
-    // we check for headers of sessionKeyRes in getHealthCheck 
-    // and compare it to localStorage.getItem('session-key')
-
-
-
-
-    //if(appValue.data.status == "continue" ) {
-    // var appValue = MockHttpClient.getHealthCheck(userSelectedData); 
-    // }
-    // .then((res) => res)
-    // .catch((err)=>err);
-    // .try{
-
-    // }
-    // var appValue = this.getHeathCheckList(userSelectedData);
-    // .then((data) => {return data;})
-    // .catch((err) => err); 
-    var responseValue = appValue;
-    // var serversValue = MockHttpClient.getAppServers;
-    console.log(userSelectedData, 'inside the clickHealthChk');
     var countAdd = this.state.count + 1;
     this.setState({
       customGroup: userSelectedData[0],
@@ -163,10 +158,24 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
     });
 
 
-    this.setState({ responseValue: appValue, requestValue: userSelectedData, checkResult: true });
-    // console.log(this.state);
-    // console.log(appValue);
-
+    this.setState({ requestValue: userSelectedData, checkResult: true });
+    console.log(this.state.status.toLowerCase());
+    
+    // if(this.state.status.toLowerCase() === "continue") {
+    //   serviceResults = listResultsService.getHealthCheckList(userSelectedData, this.state.sessionKey, this.state.status);
+    //   serviceResults.then((responseJSON: any) =>  { 
+    //     if (responseJSON != null) {
+  
+    //       for(let key in responseJSON.Data) {
+    //         console.log(responseJSON.Data[key].Status, 'this is the status from returned JSON');
+    //         data = responseJSON.Data[key];
+    //         // this.setState({status:responseJSON.Data[key].Status}); //CURRENTLY after an instance of Continue, it should be Finish
+    //       }
+    //       console.log(this.state.status, 'this is status value');
+    //       this.setState({responseValue: data});
+    //     } 
+    //   }).catch((err: any) => console.log(err));
+    // }
 
   }
 

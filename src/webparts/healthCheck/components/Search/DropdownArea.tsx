@@ -84,6 +84,8 @@ export default class DropdownArea extends React.Component<DropdownProps, any> {
 
     var webURL = 'https://atlcts.sharepoint.com/sites/GraingerTeams';
     var listName = "";
+    console.log(this.currContext,'does this have any values?');
+    
     const listResultsService: SPListResultsService = new SPListResultsService(this.currContext);
     let serviceResults = listResultsService.getApplicationValue(webURL, listName);
     // ;
@@ -105,13 +107,13 @@ export default class DropdownArea extends React.Component<DropdownProps, any> {
                 text: c.Application
             });
         });
-        console.log(itemsvalue, 'this is responseJSON value');
+
 
         let FinalDDLValues = defaultArry.concat(applnValues);
 
         // return FinalDDLValues;
         this.setState({DDValues: FinalDDLValues});
-        console.log();
+
         
       } 
     }).catch((err: any) => console.log(err));

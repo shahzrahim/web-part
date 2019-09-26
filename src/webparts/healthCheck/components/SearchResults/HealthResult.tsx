@@ -50,6 +50,12 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
   //   componentWillReceiveProps is 
   public componentWillReceiveProps(nextProps: IHealthResultProps): void {
     this.setState({ groupselectedValues: nextProps.Request });
+    let newData = nextProps.Response.Data;
+    for(let key in newData) {
+      this.setState({resultData:newData[key]});
+    }
+    
+    
     this.updateInputs(nextProps);
 
 
@@ -95,7 +101,10 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
 
   // the function that is called to map response and check for errors
   private showResults(): any {
+    console.log(this.props.Response);
+    
     // update below variables with response from API using this.props.Request
+
     let status = this.state.resultData.Status;
     let showData = this.state.resultData.Servers;
     var chkP: any;
