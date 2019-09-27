@@ -20,10 +20,12 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
   private custStoragekey_Selectedgroupnames = "_SelGroupNamesWPFeed";
   private currContext: IWebPartContext;
   private _emailID: string;
+  private listResultsService: SPHealthCheckResultsService;
 
   constructor(props: IHealthCheckContainerProps, context?: IWebPartContext) {
     super(props);    
     this.currContext = props.context;
+    this.listResultsService = new SPHealthCheckResultsService(this.currContext);
     this.state = {
       checkResult: false, searchValue: [], responseValue: [], requestValue: [],
       verbose: null,
@@ -42,7 +44,9 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
 
   public componentDidMount() {
     localStorage.setItem('session-key', this.state.sessionKey);
+    if(this.state.status.toLowerCase() === 'continue') {this.clickHealthChk(this.state.requestValue);}
   }
+
 
   public clickCancelbttn() {
     this.setState({ count: 0, checkResult: false });
@@ -80,6 +84,8 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
                       environment={this.state.environment}
                       verbose={this.state.verbose}
                       count={this.state.count}
+                      status={this.state.status}
+                      onStatusUpdate={this.getHeathCheckList}
                     />
                   </div>
                 </div>
@@ -92,33 +98,36 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
     );
   }
 
-  private updateStatevalue(statevalue?: any) {
-    if (statevalue !== undefined || statevalue !== null) {
-      if (statevalue.dataType !== undefined) {
-        var tempStateVal = statevalue.dataValue;
-        // this.setState({ searchValue: tempStateVal });
-      }
-    }
-  }
+  // private updateStatevalue(statevalue?: any) {
+  //   if (statevalue !== undefined || statevalue !== null) {
+  //     if (statevalue.dataType !== undefined) {
+  //       var tempStateVal = statevalue.dataValue;
+  //       // this.setState({ searchValue: tempStateVal });
+  //     }
+  //   }
+  // }
+
+  // //hardcoded function to recall after status has been set to Continue
   private getHeathCheckList(requestValue) {
-  //   const listResultsService: SPHealthCheckResultsService = new SPHealthCheckResultsService(this.currContext);
-  //   var listvalues = [];
-  //   var serviceResults = listResultsService.getHealthCheckList(requestValue, this.state.sessionKey, this.state.status);
-  //   console.log(serviceResults, 'this is service results');
 
-  //   // serviceResults.then
-  //   //bind finish scenario
-  //   //continue scenario, display result and call service results again with the expectation of finish status. -
+      this.setState({status : "Finish"});
+      var serviceResults = this.listResultsService.getHealthCheckList(requestValue, this.state.sessionKey, this.state.status);
+      serviceResults.then((responseJSON: any) =>  { 
+        if (responseJSON != null) {
+  
+          for(let key in responseJSON.Data) {
+            console.log(responseJSON.Data[key].Status, 'this is the status from returned JSON');
+            var data = responseJSON.Data[key];
+            this.setState({status:"Finish"});
+          }
+  
+          this.setState({responseValue: data});
+  
+          
+        } 
+      }).catch((err: any) => console.log(err));  
 
 
-  //   //     .then((responseJSON: any) =>  
-  //   //     { 
-  //   //       console.log(responseJSON);
-
-  //   //       this.setState({responseValue: listvalues});
-
-  //   //     }).catch((err) => err);
-  //   return serviceResults;
   }
 
   private clickHealthChk(userSelectedData?: any) {
@@ -128,8 +137,7 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
     // we check for headers of sessionKeyRes in getHealthCheck 
     // and compare it to localStorage.getItem('session-key')
     let data: any;
-    const listResultsService: SPHealthCheckResultsService = new SPHealthCheckResultsService(this.currContext);
-    var serviceResults = listResultsService.getHealthCheckList(userSelectedData, this.state.sessionKey, this.state.status);
+    var serviceResults = this.listResultsService.getHealthCheckList(userSelectedData, this.state.sessionKey, this.state.status);
     serviceResults.then((responseJSON: any) =>  { 
       if (responseJSON != null) {
 
@@ -138,12 +146,24 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
           data = responseJSON.Data[key];
           this.setState({status:responseJSON.Data[key].Status});
         }
-        console.log(this.state.status, 'this is status value');
         this.setState({responseValue: data});
-        console.log(this.state.responseValue,'this is what is being sent');
+
+        if(responseJSON.Data.Status === "Finish") {
+          console.log(this.state.status, 'this is status value');
+          this.setState({responseValue: data});
+          console.log(this.state.responseValue,'this is what is being sent');
+        } 
+        if(responseJSON.Data.Status === "Continue") {
+          console.log(this.state.status, 'this is status value');
+          this.setState({responseValue: data});
+          console.log(this.state.responseValue,'this is what is being sent');
+          //
+          // this.getHeathCheckList(userSelectedData);
+        }
         
       } 
     }).catch((err: any) => console.log(err));
+
     // serviceResults.then
     //bind finish scenario
     //continue scenario, display result and call service results again with the expectation of finish status. -
@@ -162,24 +182,6 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
     this.setState({ requestValue: userSelectedData, checkResult: true });
     console.log(this.state.status.toLowerCase());
     
-    // if(this.state.status.toLowerCase() === "continue") {
-    //   serviceResults = listResultsService.getHealthCheckList(userSelectedData, this.state.sessionKey, this.state.status);
-    //   serviceResults.then((responseJSON: any) =>  { 
-    //     if (responseJSON != null) {
-  
-    //       for(let key in responseJSON.Data) {
-    //         console.log(responseJSON.Data[key].Status, 'this is the status from returned JSON');
-    //         data = responseJSON.Data[key];
-    //         // this.setState({status:responseJSON.Data[key].Status}); //CURRENTLY after an instance of Continue, it should be Finish
-    //       }
-    //       console.log(this.state.status, 'this is status value');
-    //       this.setState({responseValue: data});
-    //     } 
-    //   }).catch((err: any) => console.log(err));
-    // }
-
-  }
-
-
+    }
 
 }

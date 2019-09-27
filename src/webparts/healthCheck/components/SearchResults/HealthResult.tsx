@@ -20,6 +20,7 @@ export interface IHealthResultState {
   environment: string;
   verbose: boolean;
   resultData: any;
+  status: any;
 }
 
 export default class HealthResultControl extends React.Component<IHealthResultProps, IHealthResultState> {
@@ -29,6 +30,7 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
     super(props);
     // this.sTimeout = setTimeout(() => this.loadingBlock(), 250);
     this.state = {
+      status: "",
       isLoading: false,
       count: 0,
       groupselectedValues: this.props.Request,
@@ -36,7 +38,8 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
       serverType: "",
       environment: "",
       verbose: null,
-      resultData: data['Data'][0],
+      resultData: [],
+      //needs to change to null
     };
     this.showResults = this.showResults.bind(this);
   }
@@ -49,33 +52,20 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
 
   //   componentWillReceiveProps is 
   public componentWillReceiveProps(nextProps: IHealthResultProps): void {
-    this.setState({ groupselectedValues: nextProps.Request });
-
-
-    
-    // for (let key in newData) {
-    //   console.log(nextProps,'this is within will recieve');
-    // }
-
-    this.setState({ resultData: nextProps.Response });
-
-    console.log(nextProps.Response,'this is within will recieve');
-
-    
-    this.updateInputs(nextProps);
-
-
-
-    if (this.props.HealthResult === true) {
-      this.setState({ groupselectedValues: nextProps.Request, isLoading: true });
-    }
-
-    this.raiseCount();
-    this.showLoader();
-
+    var tmpData = this.state.resultData;
     if (nextProps.count === 0) {
       this.setState({ count: 0 });
     }
+    this.showLoader();
+    if (this.props.HealthResult === true) {
+      this.setState({resultData: tmpData.append(nextProps.Response)});
+      this.updateInputs(nextProps);
+    }
+
+    this.raiseCount();
+    console.log(this.state.count,'this is the amount of times reloading');
+
+
 
   }
 
@@ -100,7 +90,8 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
       serverType: nextProps.serverType,
       environment: nextProps.environment,
       verbose: nextProps.verbose,
-
+      groupselectedValues: nextProps.Request, 
+      status: nextProps.status,
     });
   }
 
@@ -111,9 +102,9 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
 
     // update below variables with response from API using this.props.Request
     if (this.state.resultData) {
-      let status = this.state.resultData.Status;
+      let status = this.props.status;
       let showData = this.state.resultData.Servers;
-      console.log(this.state.resultData, 'this is showData');
+      console.log(status, 'this is showData status');
       
       var chkP: any;
       var chkF: any;
