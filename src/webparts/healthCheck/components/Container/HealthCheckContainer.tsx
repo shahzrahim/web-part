@@ -140,13 +140,14 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
         }
         console.log(this.state.status, 'this is status value');
         this.setState({responseValue: data});
+        console.log(this.state.responseValue,'this is what is being sent');
+        
       } 
     }).catch((err: any) => console.log(err));
     // serviceResults.then
     //bind finish scenario
     //continue scenario, display result and call service results again with the expectation of finish status. -
 
-    var responseValue = serviceResults;
 
     var countAdd = this.state.count + 1;
     this.setState({

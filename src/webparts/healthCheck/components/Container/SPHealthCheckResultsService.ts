@@ -42,7 +42,7 @@ export class SPHealthCheckResultsService implements ISPListResultsService {
             requestHeaders.append("Access-Control-Allow-Credentials" , "true");
             requestHeaders.append("Access-Control-Allow-Methods","GET");
             requestHeaders.append("Access-Control-Allow-Origin","https://atlcts.sharepoint.com");
-            requestHeaders.append("status", "Finish ");      
+            requestHeaders.append("status", "Finish");      
             // requestHeaders.append("AppName", userSelectedData.AppName); 
             requestHeaders.append("AppName", "test"); 
             // requestHeaders.append("ServerName", userSelectedData.ServerName); 
@@ -57,7 +57,7 @@ export class SPHealthCheckResultsService implements ISPListResultsService {
         const httpClientOptions: IHttpClientOptions = {           
             headers: requestHeaders,
         };
-        console.log(this.context);
+
         
         return this.context.spHttpClient.get(queryUrl, SPHttpClient.configurations.v1,httpClientOptions).then((response: SPHttpClientResponse) => {
             return response.json();
