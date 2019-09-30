@@ -20,6 +20,7 @@ export interface IHealthResultState {
   environment: string;
   verbose: boolean;
   resultData: any;
+  status: any;
 }
 
 export default class HealthResultControl extends React.Component<IHealthResultProps, IHealthResultState> {
@@ -37,39 +38,40 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
       environment: "",
       verbose: null,
       resultData: data['Data'][0],
+      status: "",
     };
     this.showResults = this.showResults.bind(this);
   }
 
+  // When component loads, we check for this.prop.Request
   public componentDidMount(): void {
     this.setState({ groupselectedValues: this.props.Request, isLoading: false });
 
   }
 
 
-  //   componentWillReceiveProps is 
+
   public componentWillReceiveProps(nextProps: IHealthResultProps): void {
+
+
+    //updated form inputs by user is user selects new inputs.
     this.setState({ groupselectedValues: nextProps.Request });
 
-
     
-    // for (let key in newData) {
-    //   console.log(nextProps,'this is within will recieve');
-    // }
-
-    this.setState({ resultData: nextProps.Response });
-
+    
     console.log(nextProps.Response,'this is within will recieve');
 
-    
+    //update state using updating props.
     this.updateInputs(nextProps);
 
 
 
+    //this.props.HealthResult will let this component know whether or not user has completed form.
     if (this.props.HealthResult === true) {
-      this.setState({ groupselectedValues: nextProps.Request, isLoading: true });
+      this.setState({ groupselectedValues: nextProps.Request, isLoading: true , resultData: nextProps.Response});
     }
 
+    if(nextProps.status !== "Continue") { this.setState({status: "Finish"});}
     this.raiseCount();
     this.showLoader();
 
@@ -79,6 +81,7 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
 
   }
 
+  //loading will only show for initial 3 seconds on initial load.
   private showLoader(): any {
     // this.setState({})
     this.setState({ isLoading: true });
@@ -90,10 +93,12 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
 
   }
 
+  //raise count 
   private raiseCount(): any {
     this.setState({ count: (this.state.count + 1) });
   }
 
+  //update state values with updated props values
   private updateInputs(nextProps): any {
     this.setState({
       customGroup: nextProps.customGroup,
@@ -111,7 +116,8 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
 
     // update below variables with response from API using this.props.Request
     if (this.state.resultData) {
-      let status = this.state.resultData.Status;
+      // let status = this.state.resultData.Status;
+      let status = this.state.status;
       let showData = this.state.resultData.Servers;
       console.log(this.state.resultData, 'this is showData');
       
@@ -138,6 +144,8 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
           checkBlock = (<div>(Chks: P:{chkP} &nbsp; F:{chkF} &nbsp; E:{chkE} )</div>);
         }
 
+
+        // will return a UI block of listed servers. can update
 
         return (
           <div key='server[i]' style={resultStyles}>

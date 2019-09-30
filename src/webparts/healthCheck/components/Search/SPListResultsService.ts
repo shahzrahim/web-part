@@ -50,7 +50,6 @@ export class SPListResultsService implements ISPListResultsService {
         //     debugger;
         //     return response.json();
         //   });
-        console.log(this.context); 
         return this.context.spHttpClient.get(weburl + queryUrl, SPHttpClient.configurations.v1).then((response: SPHttpClientResponse) => {
             return response.json();
         });

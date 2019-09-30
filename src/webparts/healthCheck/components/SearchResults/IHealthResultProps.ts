@@ -7,5 +7,7 @@ export interface IHealthResultProps {  // description: string;
  serverType:string;
  environment:string;
  count: any;
- }
+ status: any;
+ onStatusUpdate: ((term?: any) => void); 
+}
  

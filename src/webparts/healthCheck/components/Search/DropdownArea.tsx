@@ -84,7 +84,6 @@ export default class DropdownArea extends React.Component<DropdownProps, any> {
 
     var webURL = 'https://atlcts.sharepoint.com/sites/GraingerTeams';
     var listName = "";
-    console.log(this.currContext,'does this have any values?');
     
     const listResultsService: SPListResultsService = new SPListResultsService(this.currContext);
     let serviceResults = listResultsService.getApplicationValue(webURL, listName);
