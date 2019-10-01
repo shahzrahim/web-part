@@ -1,4 +1,9 @@
-
+/*
+ * @Author: Shazi.Rahim
+ * @Date:   2016-07-29 15:57:29
+ * @Company by: Cognizant
+ * @Purpose: Main Container Property type check.
+ */
 import { IWebPartContext } from '@microsoft/sp-webpart-base';
 export interface IHealthCheckContainerProps {  // description: string;
   listName: string;

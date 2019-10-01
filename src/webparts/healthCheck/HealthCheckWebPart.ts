@@ -1,3 +1,9 @@
+/*
+ * @Author: Shazi.Rahim
+ * @Date:   2016-07-29 15:57:29
+ * @Company by: Cognizant
+ * @Purpose: Sharepoint Container file that allows user to customize WebPart
+ */
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';

@@ -1,4 +1,9 @@
-
+/*
+ * @Author: Shazi.Rahim
+ * @Date:   2016-07-29 15:57:29
+ * @Company by: Cognizant
+ * @Purpose: Service Call for Health Check in Main Container .
+ */
 import { IWebPartContext } from '@microsoft/sp-webpart-base';
 import { HttpClient, HttpClientConfiguration, IHttpClientOptions, HttpClientResponse, SPHttpClientResponse, SPHttpClient } from '@microsoft/sp-http';
 import { IHealthCheckContainerProps } from './IHealthCheckContainerProps';

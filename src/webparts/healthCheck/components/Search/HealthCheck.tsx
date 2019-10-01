@@ -1,3 +1,9 @@
+/*
+ * @Author: Shazi.Rahim
+ * @Date:   2016-07-29 15:57:29
+ * @Company by: Cognizant
+ * @Purpose: Search Container that has methods from main container that essentially watch events(Click events) that will trigger action in main component.
+ */
 import * as React from 'react';
 import styles from './HealthCheck.module.scss';
 import { IHealthCheckProps } from './IHealthCheckProps';
@@ -5,21 +11,10 @@ import { escape } from '@microsoft/sp-lodash-subset';
 /*Custom Controls*/
 //import { IHealthCheckState } from './IHealthCheckState';
 //import { IListItem } from './IListItem'; 
-import { IODataList } from '@microsoft/sp-odata-types';
-import { SPHttpClient, SPHttpClientResponse, ISPHttpClientOptions, IHttpClientOptions } from '@microsoft/sp-http';
-
-import { getId } from 'office-ui-fabric-react/lib/Utilities';
-import { Dropdown, DropdownMenuItemType, IDropdownOption, IDropdownStyles } from 'office-ui-fabric-react/lib/Dropdown';
-import { Label } from 'office-ui-fabric-react/lib/Label';
-import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
-import { IStackTokens, Stack, IStackProps } from 'office-ui-fabric-react/lib/Stack';
-import { Icon } from 'office-ui-fabric-react/lib/Icon';
-import { TextField, MaskedTextField, ITextFieldStyles } from 'office-ui-fabric-react/lib/TextField';
 import { css, classNamesFunction, DefaultButton, IButtonProps, IStyle, PrimaryButton, fontFace, loadTheme } from 'office-ui-fabric-react';
-import { SPListResultsService } from './SPListResultsService';
 import { IWebPartContext } from '@microsoft/sp-webpart-base';
-import { string, any } from 'prop-types';
 import DropdownArea from './DropdownArea';
+import { IHttpClientOptions } from '@microsoft/sp-http';
 
 
 export default class HealthCheck extends React.Component<IHealthCheckProps, any> {
@@ -55,53 +50,10 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
    * Function called when the component did mount
    */
   public componentDidMount(): void {
-    // this.getApplicationDDValues();
     this.setState({ showDropDownArea: true });
   }
 
-  // private getApplicationDDValues(): void {
-  //   //Replace webURL with this.props.HealthCheckSharepointURL
-  //   //Replace listName with this.props.HealthCheckListName
-  //   // https://atlcts.sharepoint.com/sites/GraingerTeams — WebURL
-
-
-  //   var webURL = 'https://atlcts.sharepoint.com/sites/GraingerTeams';
-  //   var listName = this.props.HealthCheckSharepointListName;
-  //   const listResultsService: SPListResultsService = new SPListResultsService(this.props, this.currContext);
-  //   this.serviceResults = listResultsService.getApplicationValue(webURL, listName);
-  //   // ;
-  //   // this.setState({ddResults: this.serviceResults});
-  //   // console.log(this.state.ddResults, 'in health check');
-    
-  //   // this.serviceResults.
-  //   this.serviceResults.then((responseJSON: any) =>  { 
-  //     if (responseJSON != null) {
-
-  //       let applnValues = [];
-  //       var defaultArry = [];
-  //       defaultArry.push({ key: 'Application', text: 'Application' });
-  //       defaultArry.push({ key: 'Servers', text: 'Servers' });
-  //       //Code to get the column values from the sharepoint list with duplicate values to array.
-  //       let itemsvalue: any[] = responseJSON.value;
-  //       itemsvalue.forEach(c => {
-  //           applnValues.push({
-  //               key: c.Application,
-  //               text: c.Application
-  //           });
-  //       });
-  //       console.log(itemsvalue, 'this is responseJSON value');
-
-  //       let FinalDDLValues = defaultArry.concat(applnValues);
-
-  //       // return FinalDDLValues;
-  //       this.setState({ddResults: FinalDDLValues});
-  //       console.log();
-        
-  //     } 
-  //   });
-  // }
-
-  //DDLApplication
+  //Error Handling methods for DDLApplication that are passed as props to Dropdown Component
   private _onApplicationDDLChanged(event?: any) {
     var DDlApplSelectedValue = event.key;
 
@@ -121,7 +73,7 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
 
     // console.log('The Application dropdown value is :'+event.key);
   }
-  //TxtServerName
+  //Error Handling methods for TxtServerName that are passed as props to Dropdown Component
   private _handleTextFieldChange(event?: any) {
     if (this.state.customGroup == 'Application' || this.state.customGroup == 'Server') {
       this.setState({
@@ -130,11 +82,9 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
     }
     this.setState({ serverName: event.target.value });
     this.setState({ errorMsg2: "" });
-    //this.state={serverName: event.target.value};
-    // console.log('The entered Server name is :'+event.target.value);
-    //this.setState({txtServer:event.target.value})
   }
-  //DDLEnvironment
+
+  //Error Handling methods for DDLEnvironment that are passed as props to Dropdown Component
   private _onEnvironmentDDLChanged(event?: any) {
     var DDlEnvnSelectedValue = event.key;
     this.setState({ environment: event.key });
@@ -150,7 +100,7 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
     }
 
   }
-  //ChkVerbose
+  //Error Handling methods for ChkVerbose that are passed as props to Dropdown Component
   public _onChkVerboseChange(e) {
     var isChecked = e.target.checked;
 
@@ -159,11 +109,13 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
   public enableBttn() {
     this.setState({ bttnDisable: !this.state.bttnDisable });
   }
+
+  //UI Component to be rendered.
   public render(): React.ReactElement<IHealthCheckProps> {
-    //  console.log(this.state.results);
+
+    // Will insure that dropdown area shows, always.
     if (this.state.showDropDownArea == false) this.setState({ showDropDownArea: true });
 
-    // {/* className="inputContainer" */}
 
     return (
       <div className={styles.healthCheck}>
@@ -218,7 +170,8 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
     );
   }
 
-  //btnCancel
+  //this method btnCancel will let parent container know to reset state of application by calling this.props.onCancelClick();
+
   private _btnCancelClicked(): void {
     this.props.onCancelClick();
     this.setState({
@@ -232,6 +185,7 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
 
   }
 
+  //Clears all error messages on form
   private clearMsg(): void {
     this.setState({
       errorMsg1: "",
@@ -239,7 +193,9 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
       errorMsg3: "",
     });
   }
-  //btnHealthChk
+
+  //This method btnHealthChk will let to update Form inputs into parent component state which will trigger load in results section
+  //by calling this.props.onCancelClick();
   private _btnHealthChkClicked(): void {
     var currApplnValue = this.state.customGroup;
     var currServerNameValue = this.state.serverName;
@@ -292,38 +248,5 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
     }
 
   }
-  public static getHealthCheck(AzureUrl, sessionKey, userSelectedData?: any) {
-    const requestHeaders: Headers = new Headers();
-    requestHeaders.append("Access-Control-Max-Age", "86400");
-    requestHeaders.append("Access-Control-Allow-Credentials", "true");
-    requestHeaders.append("Access-Control-Allow-Methods", "GET");
-    requestHeaders.append("Access-Control-Allow-Origin", "https://atlcts.sharepoint.com");
-    requestHeaders.append("Appname", "test");
-    requestHeaders.append("Status", "finish");
-    requestHeaders.append("servername", "test");
-    requestHeaders.append("verbose", "on");
-
-    requestHeaders.append("Session-Key", sessionKey);
-    const httpClientOptions: IHttpClientOptions = {
-      headers: requestHeaders
-    };
-    //  return this.context.httpClient.get(AzureUrl, SPHttpClient.configurations.v1,httpClientOptions).then(this.processResponse);
-
-
-    // try {
-    //     const response = new Promise((resolve, reject) => {
-    //         resolve(data);
-    //     });
-    //     return new Promise((resolve, reject) => {
-    //         //check if sessionKey matches sessionKey in localStorage
-    //         //  then return based on truthy
-    //         return response;
-    //     });
-    // }
-    // catch (error_2) {
-    //     return console.log(error_2);
-    // }
-  }
-
 
 }

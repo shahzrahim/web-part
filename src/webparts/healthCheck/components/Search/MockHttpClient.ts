@@ -1,3 +1,9 @@
+/*
+ * @Author: Shazi.Rahim
+ * @Date:   2016-07-29 15:57:29
+ * @Company by: Cognizant
+ * @Purpose: *DEPRECATED*
+ */
 import { IWebPartContext } from "@microsoft/sp-webpart-base";
 import { IHealthCheckProps } from "./IHealthCheckProps";
 // import data from '../../data/data';

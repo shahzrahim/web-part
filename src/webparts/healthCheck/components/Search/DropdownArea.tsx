@@ -1,3 +1,9 @@
+/*
+ * @Author: Shazi.Rahim
+ * @Date:   2016-07-29 15:57:29
+ * @Company by: Cognizant
+ * @Purpose: Dropdown component that holds health Check form dropdowns. Based on action in this file, Search Component will update its state.
+ */
 import * as React from 'react';
 import styles from './HealthCheck.module.scss';
 import { IHealthCheckProps } from './IHealthCheckProps';
@@ -69,7 +75,8 @@ export default class DropdownArea extends React.Component<DropdownProps, any> {
    * @function
    * Function called when the component did mount
    */
-  //   componentWillReceiveProps is 
+
+  // will make call to get application DD values that will populate Application Dropdown selections.
   public componentDidMount(): void {
     this.getApplicationDDValues();
 
@@ -119,6 +126,7 @@ export default class DropdownArea extends React.Component<DropdownProps, any> {
     this.setState({DDValues: defaultArry});
   }
   
+  //UI component that will be rendered on Browser.
   public render(): React.ReactElement<DropdownProps> {
 
 
@@ -156,19 +164,20 @@ export default class DropdownArea extends React.Component<DropdownProps, any> {
 
     );
   }
-    //DDLApplication
+
+    //Method to handle change for DDLApplication
     private _onApplicationDDLChanged(event?: any) {
       return this.props._onApplicationDDLChanged(event);
     }
-    //TxtServerName
+    //Method to handle change for TxtServerName
     private _handleTextFieldChange(event? :any) {
       return this.props._handleTextFieldChange(event);
     }
-    //DDLEnvironment
+    //Method to handle change for DDLEnvironment
     private _onEnvironmentDDLChanged(event? :any) {
       return this.props._onEnvironmentDDLChanged(event);
     }
-    //ChkVerbose
+    //Method to handle change for ChkVerbose
     public _onChkVerboseChange(event? :any) {
       return this.props._onChkVerboseChange(event);
     }

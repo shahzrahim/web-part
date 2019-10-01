@@ -1,10 +1,13 @@
+/*
+ * @Author: Shazi.Rahim
+ * @Date:   2016-07-29 15:57:29
+ * @Company by: Cognizant
+ * @Purpose: Service File in which we make HTTP Request call to Azure Web Endpoint for Dropdown Values.
+ */
 import { IHealthCheckProps } from './IHealthCheckProps';
 import { IWebPartContext } from '@microsoft/sp-webpart-base';
 import { HttpClient, HttpClientConfiguration, IHttpClientOptions, HttpClientResponse, SPHttpClientResponse, SPHttpClient } from '@microsoft/sp-http';
 
-import { CamlQuery } from "@pnp/sp";
-import * as pnp from '@pnp/pnpjs';
-import { string } from 'prop-types';
 
 /**
  * @interface
@@ -13,7 +16,7 @@ import { string } from 'prop-types';
 export interface ISPListResultsService {
 
     /**
-     * @function
+     * @function>
      * Gets the feed from a Instagram
      */
 
@@ -35,21 +38,11 @@ export class SPListResultsService implements ISPListResultsService {
     constructor(pageContext: IWebPartContext) {
         this.context = pageContext;
     }
-    public getApplicationValue(weburl: string, listname: string): any {
-        // _api/web/lists/getByTitle('AppConfigTestList')/items?$select=Application
-        var queryUrl = "/_api/web/lists/getByTitle('AppConfigTestList')/items?$select=Application";
-        var FinalDDLValues = [];
 
-        //   this.context.httpClient.get(queryUrl, HttpClient.configurations.v1)
-        //   .then((response: HttpClientResponse) => {
-        //       return response.json();
-        //   });
-        // this.context.httpClient.get(weburl + queryUrl,
-        // SPHttpClientConfigurations.v1)
-        //   .then((response: Response): Promise<{ value: IListItem[] }> => {
-        //     debugger;
-        //     return response.json();
-        //   });
+    //we call getApplicationValue in Dropdown component in order to populate Dropdown List selection values.
+    public getApplicationValue(weburl: string, listname: string): any {
+        var queryUrl = "/_api/web/lists/getByTitle('AppConfigTestList')/items?$select=Application";
+
         return this.context.spHttpClient.get(weburl + queryUrl, SPHttpClient.configurations.v1).then((response: SPHttpClientResponse) => {
             return response.json();
         });

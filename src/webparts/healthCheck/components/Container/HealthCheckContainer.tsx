@@ -1,3 +1,9 @@
+/*
+ * @Author: Shazi.Rahim
+ * @Date:   2016-07-29 15:57:29
+ * @Company by: Cognizant
+ * @Purpose: Main Container that holds Search Container and Results Container.
+ */
 import * as React from 'react';
 import styles from './HealthCheckContainer.module.scss';
 import { IHealthCheckContainerProps } from './IHealthCheckContainerProps';
@@ -42,12 +48,14 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
     this.getHeathCheckList = this.getHeathCheckList.bind(this);
   }
 
+  //will load session key to local storage, and we will check that value when recieiving responses from the API.
   public componentDidMount() {
     localStorage.setItem('session-key', this.state.sessionKey);
     if (this.state.status.toLowerCase() === 'continue') { this.clickHealthChk(this.state.requestValue); }
   }
 
 
+  //pass to health check so when user clicks on cancel, form will be reset.
   public clickCancelbttn() {
     this.setState({ count: 0, checkResult: false });
     console.log(this.state, 'within container, cancel is checked');
@@ -69,9 +77,19 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
               <div className='panel-container'>
                 <div className='panel-search'>
                   <Healthsearch onSaveClick={this.clickHealthChk}
-                    onCancelClick={this.clickCancelbttn} listName={this.props.listName} HealthCheckPageTitle={this.props.HealthCheckPageTitle} HealthCheckCustomLabel1={this.props.HealthCheckCustomLabel1}
-                    HealthCheckCustomLabel2={this.props.HealthCheckCustomLabel2} HealthCheckCustomLabel3={this.props.HealthCheckCustomLabel3} HealthCheckCustomLabel4={this.props.HealthCheckCustomLabel4} HealthCheckCustomButton1={this.props.HealthCheckCustomButton1}
-                    HealthCheckCustomButton2={this.props.HealthCheckCustomButton2} context={this.props.context} HealthCheckSharepointListName={this.props.HealthCheckSharepointListName} HealthCheckSharepointUrl={this.props.HealthCheckSharepointURL} />
+                    onCancelClick={this.clickCancelbttn} 
+                    listName={this.props.listName} 
+                    HealthCheckPageTitle={this.props.HealthCheckPageTitle} 
+                    HealthCheckCustomLabel1={this.props.HealthCheckCustomLabel1}
+                    HealthCheckCustomLabel2={this.props.HealthCheckCustomLabel2} 
+                    HealthCheckCustomLabel3={this.props.HealthCheckCustomLabel3} 
+                    HealthCheckCustomLabel4={this.props.HealthCheckCustomLabel4} 
+                    HealthCheckCustomButton1={this.props.HealthCheckCustomButton1}
+                    HealthCheckCustomButton2={this.props.HealthCheckCustomButton2} 
+                    HealthCheckSharepointListName={this.props.HealthCheckSharepointListName} 
+                    HealthCheckSharepointUrl={this.props.HealthCheckSharepointURL} 
+                    context={this.props.context} 
+                    />
                 </div>
                 <div>
                   <div className={styles["panel-Feedcontrol"]}>
@@ -98,19 +116,13 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
     );
   }
 
-  // private updateStatevalue(statevalue?: any) {
-  //   if (statevalue !== undefined || statevalue !== null) {
-  //     if (statevalue.dataType !== undefined) {
-  //       var tempStateVal = statevalue.dataValue;
-  //       // this.setState({ searchValue: tempStateVal });
-  //     }
-  //   }
-  // }
+  //hardcoded function to recall after status has been set to Continue
+  //this call will only be made in scenarios in which response data.Status equals "Continue"
 
-  // //hardcoded function to recall after status has been set to Continue
   private getHeathCheckList(requestValue: any) {
     console.log('second call getting hit');
 
+    //set this.state.status to finish, and that value will be passed when making getHealthCheckList call in arguments.
     this.setState({ status: "Finish" });
     var serviceResults = this.listResultsService.getHealthCheckList(requestValue, this.state.sessionKey, this.state.status);
     serviceResults.then((responseJSON: any) => {
@@ -157,10 +169,8 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
           console.log(responseJSON.Data[key].Status, 'this is the status from returned JSON');
           data = responseJSON.Data[key];
           this.setState({ status: responseJSON.Data[key].Status });
-          console.log(data, 'this is data');
 
         }
-        console.log(data, 'this is data');
         // this.setState({responseValue: data});
 
         if (data.Status === "Finish") {
@@ -173,17 +183,14 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
           this.setState({ responseValue: data });
           console.log(this.state.responseValue, 'this is what is being sent');
 
+          //makes call to getHealthCheckList to grab next set of data.
           this.getHeathCheckList(userSelectedData);
         }
 
       }
     }).catch((err: any) => console.log(err));
 
-    // serviceResults.then
-    //bind finish scenario
-    //continue scenario, display result and call service results again with the expectation of finish status. -
-
-
+    //Count is used to keep state of the app, when count is at 0, form and results are at intial loading state.
     var countAdd = this.state.count + 1;
     this.setState({
       customGroup: userSelectedData[0],
