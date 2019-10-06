@@ -154,6 +154,8 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
 
   }
 
+
+  //Initial call that is called once user clicks submit button within Search Component.
   private clickHealthChk(userSelectedData?: any) {
     // var AzureUrl = this.props.HealthCheckAzureUrl;
     // var appValue = MockHttpClient.getHealthCheck(AzureUrl, this.state.sessionKey, userSelectedData);
@@ -173,6 +175,7 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
         }
         // this.setState({responseValue: data});
 
+        //if status property within response json shows either Finish or Continue.
         if (data.Status === "Finish") {
           console.log(this.state.status, 'is working');
           this.setState({ responseValue: data });
@@ -185,6 +188,9 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
 
           //makes call to getHealthCheckList to grab next set of data.
           this.getHeathCheckList(userSelectedData);
+          /* This call can be replaced with this.clickHealthChk(the function that is the current scope), once AZURE WEB API can respond correctly in subsequential calls
+          This concept is considered Recursive
+          */
         }
 
       }

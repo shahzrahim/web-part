@@ -1,9 +1,10 @@
 /*
- * @Author: mikey.zhaopeng 
- * @Date: 2019-09-30 16:17:47 
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-09-30 16:18:51
+ * @Author: Shazi.Rahim
+ * @Date:   2016-07-29 15:57:29
+ * @Company by: Cognizant
+ * @Purpose: Health Result Container, that will display formated results of getHealthCheck call from Health Check Container file.
  */
+
 import * as React from 'react';
 import styles from './HealthResult.module.scss';
 import { IHealthResultProps } from './IHealthResultProps';
