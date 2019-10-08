@@ -3,7 +3,7 @@
   "solution": {
     "name": "Grainger-Health-Check-V2",
     "id": "ae706c11-da85-43d2-b60e-9f2c8e92c2ed",
-    "version": "3.0.0.0",
+    "version": "4.0.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true
   },

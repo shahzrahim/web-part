@@ -136,24 +136,6 @@ export default class HealthCheckWebPart extends BaseClientSideWebPart<IHealthChe
                   label: strings.HealthCheckSharepointListName  
                 }) 
 
-                // PropertyFieldColorPicker('color', {
-                //   label: 'Color',
-                //   selectedColor: this.properties.color,
-                //   onPropertyChange: this.onPropertyPaneFieldChanged,
-                //   properties: this.properties,
-                //   disabled: false,
-                //   isHidden: false,
-                //   alphaSliderHidden: false,
-                //   style: PropertyFieldColorPickerStyle.Full,
-                //   iconName: 'Precipitation',
-                //   key: 'colorFieldId'
-                // })
-
-              
-               // PropertyPaneTextField('description', {
-               //   label: strings.DescriptionFieldLabel
-               // })
-
               ]
             }
           ]

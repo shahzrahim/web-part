@@ -41,7 +41,8 @@ export class SPListResultsService implements ISPListResultsService {
 
     //we call getApplicationValue in Dropdown component in order to populate Dropdown List selection values.
     public getApplicationValue(weburl: string, listname: string): any {
-        var queryUrl = "/_api/web/lists/getByTitle('AppConfigTestList')/items?$select=Application";
+        var queryUrl = "/_api/web/lists/getByTitle('"+listname+"')/items?$select=Application";
+        
 
         return this.context.spHttpClient.get(weburl + queryUrl, SPHttpClient.configurations.v1).then((response: SPHttpClientResponse) => {
             return response.json();

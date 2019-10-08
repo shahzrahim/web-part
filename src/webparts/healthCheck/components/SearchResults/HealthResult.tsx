@@ -110,7 +110,7 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
     this.setState({
       customGroup: nextProps.customGroup,
       serverType: nextProps.serverType,
-      environment: nextProps.environment,
+      environment: nextProps.environment.toUpperCase(),
       verbose: nextProps.verbose,
 
     });
@@ -225,7 +225,7 @@ export default class HealthResultControl extends React.Component<IHealthResultPr
       headerBlock = (<div className="headerBlock">
         <p>
           Running Health Check <br />
-          Server/Group: {this.state.customGroup}  &nbsp; Type: {this.state.serverType}  &nbsp; ENV: {this.state.environment} &nbsp; Verbose Mode:{check}
+          Server/Group: {this.state.customGroup}  &nbsp; Type: {this.state.serverType}  &nbsp; ENV: {this.state.environment.toLocaleUpperCase()} &nbsp; Verbose Mode:{check}
         </p>
       </div>);
     } else {

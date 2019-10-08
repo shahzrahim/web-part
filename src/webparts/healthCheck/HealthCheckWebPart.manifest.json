@@ -25,8 +25,11 @@
       "HealthCheckCustomLabel3" : "Environments",
       "HealthCheckCustomLabel4" : "Verbose Mode",
       "HealthCheckCustomButton1" : "Cancel",
-      "HealthCheckCustomButton2" : "Health Check"
-
+      "HealthCheckCustomButton2" : "Health Check",
+      "HealthCheckAzureUrl": "https://graingerhealthcheck.azurewebsites.net/api/Grainger/response",
+      "HealthCheckSharepointListName": "https://atlcts.sharepoint.com/sites/GraingerTeams",
+      "HealthCheckSharepointURL": "AppConfigTestList"
+  
     }
   }]
 }

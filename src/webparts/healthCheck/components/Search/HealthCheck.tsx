@@ -125,7 +125,8 @@ export default class HealthCheck extends React.Component<IHealthCheckProps, any>
               <div >
                 {(this.state.showDropDownArea !== true) ? ""
                   : <DropdownArea
-                    
+                    HealthCheckSharepointUrl = {this.props.HealthCheckSharepointUrl}
+                    HealthCheckSharepointListName = {this.props.HealthCheckSharepointListName}
                     HealthCheckCustomLabel1={this.props.HealthCheckCustomLabel1}
                     HealthCheckCustomLabel2={this.props.HealthCheckCustomLabel2}
                     HealthCheckCustomLabel3={this.props.HealthCheckCustomLabel3}

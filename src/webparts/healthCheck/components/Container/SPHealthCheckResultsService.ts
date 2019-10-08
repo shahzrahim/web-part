@@ -29,19 +29,23 @@ export interface ISPListResultsService {
  */
 export class SPHealthCheckResultsService implements ISPListResultsService {
     private context: IWebPartContext;
+    private IHealthCheckContainerProps: IHealthCheckContainerProps;
 
     // /**
     //  * @function
     //  * Service constructor
     //  */
-    constructor(pageContext: IWebPartContext) {
+    constructor(pageContext: IWebPartContext, pageProps: IHealthCheckContainerProps) {
         this.context = pageContext;
+        this.IHealthCheckContainerProps = pageProps;
     }
     
     //send sessionKey and status
-    public getHealthCheckList(userSelectedData?: any, sessionKey?: string , status?: any ): any {
+    public getHealthCheckList(userSelectedData?: any, sessionKey?: string , status?: any, queryURL?: any): any {
         {
-            var queryUrl="https://graingerhealthcheck.azurewebsites.net/api/Grainger/response";
+
+            // var queryUrl="https://graingerhealthcheck.azurewebsites.net/api/Grainger/response";
+            var queryUrl = queryURL;
             const requestHeaders: Headers = new Headers();       
             requestHeaders.append("Access-Control-Max-Age", "86400");
             requestHeaders.append("Access-Control-Allow-Credentials" , "true");

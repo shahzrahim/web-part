@@ -25,13 +25,14 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
   private _sessionStorageKey: string = "Deltanet_GroupWPFeed";
   private custStoragekey_Selectedgroupnames = "_SelGroupNamesWPFeed";
   private currContext: IWebPartContext;
+  private currProps: IHealthCheckContainerProps;
   private _emailID: string;
   private listResultsService: SPHealthCheckResultsService;
 
   constructor(props: IHealthCheckContainerProps, context?: IWebPartContext) {
     super(props);
     this.currContext = props.context;
-    this.listResultsService = new SPHealthCheckResultsService(this.currContext);
+    this.listResultsService = new SPHealthCheckResultsService(this.currContext, this.currProps);
     this.state = {
       checkResult: false, searchValue: [], responseValue: [], requestValue: [],
       verbose: null,
@@ -124,7 +125,7 @@ export default class HealthCheckContainer extends React.Component<IHealthCheckCo
 
     //set this.state.status to finish, and that value will be passed when making getHealthCheckList call in arguments.
     this.setState({ status: "Finish" });
-    var serviceResults = this.listResultsService.getHealthCheckList(requestValue, this.state.sessionKey, this.state.status);
+    var serviceResults = this.listResultsService.getHealthCheckList(requestValue, this.state.sessionKey, this.state.status, this.props.HealthCheckAzureUrl);
     serviceResults.then((responseJSON: any) => {
       if (responseJSON != null) {
 

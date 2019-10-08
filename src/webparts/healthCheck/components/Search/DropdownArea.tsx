@@ -32,6 +32,8 @@ export interface DropdownProps {
   errorMsg2: any;
   errorMsg3: any;
   _onChkVerboseChange: ((term?: any) => any);
+  HealthCheckSharepointUrl: string;
+  HealthCheckSharepointListName: string;
  }
  const ApplicationOptions: IDropdownOption[] = [
   { key: 'Application', text: 'Application' },
@@ -89,8 +91,10 @@ export default class DropdownArea extends React.Component<DropdownProps, any> {
     defaultArry.push({ key: 'Application', text: 'Application' });
     defaultArry.push({ key: 'Servers', text: 'Servers' });
 
-    var webURL = 'https://atlcts.sharepoint.com/sites/GraingerTeams';
-    var listName = "";
+    
+    var webURL = this.props.HealthCheckSharepointUrl;
+    var listName = this.props.HealthCheckSharepointListName;
+    
     
     const listResultsService: SPListResultsService = new SPListResultsService(this.currContext);
     let serviceResults = listResultsService.getApplicationValue(webURL, listName);
